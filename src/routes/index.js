@@ -6,13 +6,13 @@ Vue.use(VueRouter);
 import Home from '@/pages/home/Home';
 
 const routes = [
-    { path: '/', name: 'home', component: Home },
+  { path: '/', name: 'home', component: Home }
 ];
 
 const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes,
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
 });
 
 export default router;

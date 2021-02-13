@@ -49,7 +49,10 @@
       "no-new": [
         0
       ],
-      "comma-dangle": [2, "never"],
+      "comma-dangle": [
+        2,
+        "never"
+      ],
       "no-multi-spaces": 1
     }
   },
