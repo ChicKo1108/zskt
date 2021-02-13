@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-router": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -32,8 +33,32 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-extra-semi": 2,
+      "semi": [
+        2,
+        "always"
+      ],
+      "no-debugger": [
+        0
+      ],
+      "indent": [
+        2,
+        2
+      ],
+      "no-new": [
+        0
+      ],
+      "comma-dangle": [2, "never"],
+      "no-multi-spaces": 1
+    }
   },
+  "eslintIgnore": [
+    "dist/*",
+    "node_modules/*",
+    "build/*",
+    "*.md"
+  ],
   "browserslist": [
     "> 1%",
     "last 2 versions",
