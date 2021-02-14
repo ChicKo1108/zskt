@@ -1,0 +1,146 @@
+.address_home {
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding-top: 45px;
+    padding-bottom: 60px;
+}
+
+.search_bar {
+    height: 60px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+    padding: 12px 18px;
+}
+
+.search_box {
+    height: 35px;
+    border-radius: 23px;
+    overflow: hidden;
+    background-color: #eee;
+    position: relative;
+}
+
+.search_box>img {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 11px;
+    left: 16px;
+}
+
+.search_box>input {
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+    color: #333;
+    line-height: 35px;
+    padding-left: 40px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.search_box>input::placeholder {
+    color: #999;
+}
+
+.list_item {
+    background-color: #fff;
+    width: 100%;
+    margin-top: 16px;
+    padding-bottom: 5px;
+}
+
+.list_item:first-child {
+    margin-top: 0;
+}
+
+.item_header {
+    height: 67px;
+    padding: 14px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.class_avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-right: 12px;
+}
+
+.class_avatar>img {
+    width: 100%;
+    height: 100%;
+}
+
+.class_info {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.class_info_detail .name {
+    color: #333;
+    font-size: 16px;
+}
+
+.class_info_detail .num {
+    font-size: 12px;
+    color: #999;
+    margin-top: 5px;
+}
+
+.link {
+    color: #539CFC;
+    font-size: 12px;
+}
+
+.student_list {
+    padding: 0 26px;
+}
+
+.stu_item {
+    height: 55px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.stu_item:last-child {
+    border: none;
+}
+
+.stu_avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+}
+
+.stu_avatar>img {
+    width: 100%;
+    height: 100%;
+}
+
+.show_all_stu {
+    color: #539CFC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+}
+
+.show_all_stu>img {
+    width: 9px;
+    height: 5px;
+    margin-left: 3px;
+}
