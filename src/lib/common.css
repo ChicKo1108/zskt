@@ -25,3 +25,40 @@ caption, th { text-align: left; }
     min-height: 100vh;
     box-sizing: border-box;
 }
+
+.flx {
+    display: flex;
+}
+
+.flx-centerX {
+    justify-content: center;
+}
+
+.flx-centerY {
+    align-items: center;
+}
+
+.flx-sbX {
+    justify-content: space-between;
+}
+
+.flx-startX {
+    justify-content: flex-start;
+}
+
+.flex-endX {
+    justify-content: flex-end;
+}
+
+.flx-startY {
+    align-items: flex-start;
+}
+
+.flx-endY {
+    align-items: flex-end;
+}
+
+.flx-col {
+    display: flex;
+    flex-direction: column;
+}

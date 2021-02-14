@@ -1,6 +1,8 @@
 function getStringLocalTime() {
   const localTime = new Date().getHours();
-  if (localTime < 11) {
+  if (localTime < 8) {
+    return "早上";
+  } else if (localTime < 11) {
     return "上午";
   } else if (localTime < 13) {
     return "中午";
