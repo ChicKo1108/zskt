@@ -58,7 +58,7 @@
         </zs-button>
       </div>
       <div v-else class="default_hint">
-        <img src="@/assets/images/clock-gray.png" alt="">
+        <img src="@/assets/images/clock-gray.png" alt="" />
         您目前暂无班级，先去创建班级吧~
       </div>
     </div>
@@ -67,55 +67,55 @@
       <h2 class="card_title">我的班级</h2>
       <div v-if="classVos && classVos.length" class="card_main">
         <ul class="card_list">
-        <li class="list_item class_item">
-          <div class="class_avatar">
-            <img src="@/assets/images/default_avatar.png" alt="" />
-          </div>
-          <div class="class_info">
-            <div class="info_detail">
-              <div class="name">2017级软件工程1班</div>
-              <div class="msg">共23人 班长：王小明</div>
+          <li class="list_item class_item">
+            <div class="class_avatar">
+              <img src="@/assets/images/default_avatar.png" alt="" />
             </div>
-            <div class="arrow">
-              <img src="@/assets/images/arrow_right_black.png" alt="" />
+            <div class="class_info">
+              <div class="info_detail">
+                <div class="name">2017级软件工程1班</div>
+                <div class="msg">共23人 班长：王小明</div>
+              </div>
+              <div class="arrow">
+                <img src="@/assets/images/arrow_right_black.png" alt="" />
+              </div>
             </div>
-          </div>
-        </li>
-        <li class="list_item class_item">
-          <div class="class_avatar">
-            <img src="@/assets/images/default_avatar.png" alt="" />
-          </div>
-          <div class="class_info">
-            <div class="info_detail">
-              <div class="name">2017级软件工程1班</div>
-              <div class="msg">共23人 班长：王小明</div>
+          </li>
+          <li class="list_item class_item">
+            <div class="class_avatar">
+              <img src="@/assets/images/default_avatar.png" alt="" />
             </div>
-            <div class="arrow">
-              <img src="@/assets/images/arrow_right_black.png" alt="" />
+            <div class="class_info">
+              <div class="info_detail">
+                <div class="name">2017级软件工程1班</div>
+                <div class="msg">共23人 班长：王小明</div>
+              </div>
+              <div class="arrow">
+                <img src="@/assets/images/arrow_right_black.png" alt="" />
+              </div>
             </div>
-          </div>
-        </li>
-        <li class="list_item class_item">
-          <div class="class_avatar">
-            <img src="@/assets/images/default_avatar.png" alt="" />
-          </div>
-          <div class="class_info">
-            <div class="info_detail">
-              <div class="name">2017级软件工程1班</div>
-              <div class="msg">共23人 班长：王小明</div>
+          </li>
+          <li class="list_item class_item">
+            <div class="class_avatar">
+              <img src="@/assets/images/default_avatar.png" alt="" />
             </div>
-            <div class="arrow">
-              <img src="@/assets/images/arrow_right_black.png" alt="" />
+            <div class="class_info">
+              <div class="info_detail">
+                <div class="name">2017级软件工程1班</div>
+                <div class="msg">共23人 班长：王小明</div>
+              </div>
+              <div class="arrow">
+                <img src="@/assets/images/arrow_right_black.png" alt="" />
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-      <div class="link">
-        管理全部班级<img src="@/assets/images/arrow_right_gray.png" alt="" />
-      </div>
+          </li>
+        </ul>
+        <div class="link">
+          管理全部班级<img src="@/assets/images/arrow_right_gray.png" alt="" />
+        </div>
       </div>
       <div v-else class="default_hint">
-        <img src="@/assets/images/clock-gray.png" alt="">
+        <img src="@/assets/images/clock-gray.png" alt="" />
         您目前暂无班级，先去创建班级吧~
       </div>
     </div>
@@ -154,7 +154,11 @@
         </li>
       </ul>
       <div v-else class="default_hint">
-        <img src="@/assets/images/no-message.png" style="width:26px;height:29px;" alt="">
+        <img
+          src="@/assets/images/no-message.png"
+          style="width: 26px; height: 29px"
+          alt=""
+        />
         暂无考勤结果
       </div>
     </div>
@@ -183,6 +187,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url("./Home.css");
-</style>
+<style src="./Home.css" scoped></style>
