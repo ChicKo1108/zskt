@@ -1,6 +1,23 @@
 <template>
   <div class="address_home">
     <zs-nav-bar title="通讯录" type="simple"></zs-nav-bar>
+    <div
+      @click="toggleMenu"
+      class="menu_btn"
+      :style="{ transform: shouldShowMenu ? 'rotate(45deg)' : 'rotate(0deg)' }"
+    >
+      <img src="@/assets/images/plus.png" alt="" />
+    </div>
+    <div v-if="shouldShowMenu" class="menu">
+      <div @click="closeMenu" class="btn">
+        <img src="@/assets/images/add.png" alt="" />
+        创建班级
+      </div>
+      <div @click="closeMenu" class="btn">
+        <img src="@/assets/images/scan.png" alt="" />
+        扫一扫
+      </div>
+    </div>
     <!-- 搜索框 -->
     <div class="search_bar">
       <div class="search_box">
@@ -82,7 +99,27 @@
 import HomeFooterVue from "../../components/home_footer/HomeFooter.vue";
 import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
 export default {
-  components: { ZsNavBar: ZsNavBarVue, HomeFooter: HomeFooterVue }
+  components: { ZsNavBar: ZsNavBarVue, HomeFooter: HomeFooterVue },
+  data() {
+    return {
+      shouldShowMenu: false
+    };
+  },
+  methods: {
+    showMenu() {
+      this.shouldShowMenu = true;
+    },
+    closeMenu() {
+      this.shouldShowMenu = false;
+    },
+    toggleMenu() {
+      if (this.shouldShowMenu) {
+        this.closeMenu();
+      } else {
+        this.showMenu();
+      }
+    }
+  }
 };
 </script>
 
