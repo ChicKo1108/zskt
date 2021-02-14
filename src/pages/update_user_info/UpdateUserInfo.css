@@ -1,0 +1,43 @@
+.update {
+    padding-top: 45px;
+    padding-bottom: 60px;
+}
+
+.chunk {
+    margin-top: 18px;
+    background-color: #fff;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 17px;
+    height: 55px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.title {
+    font-size: 14px;
+    color: #999;
+    margin-right: 15px;
+    width: 60px;
+}
+
+.item>input {
+    height: 24px;
+    width: 50%;
+    border: none;
+    outline: none;
+    background-color: #eee;
+    border-radius: 12px;
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+.tip {
+    color: #FF1C1C;
+    font-size: 12px;
+    margin-left: auto;
+}

@@ -11,14 +11,14 @@
                 <img src="@/assets/images/arrow_right_black.png" alt="">
             </div>
         </li>
-        <li class="item">
+        <li @click="goUpdate('realName')" class="item">
             <span class="title">姓名</span>
             <div class="content">王小明</div>
             <div class="arrow">
                 <img src="@/assets/images/arrow_right_black.png" alt="">
             </div>
         </li>
-        <li class="item">
+        <li @click="goUpdate('userNo')" class="item">
             <span class="title">学号</span>
             <div class="content">P171713280</div>
             <div class="arrow">
@@ -27,13 +27,13 @@
         </li>
     </ul>
     <ul class="chunk">
-        <li class="item">
+        <li @click="goUpdate('password')" class="item">
             <span class="content" style="font-size:14px;">修改密码</span>
             <div class="arrow">
                 <img src="@/assets/images/arrow_right_black.png" alt="">
             </div>
         </li>
-        <li class="item">
+        <li @click="goUpdate('phone')" class="item">
             <span class="content" style="font-size:14px;">修改手机号</span>
             <div class="arrow">
                 <img src="@/assets/images/arrow_right_black.png" alt="">
@@ -53,7 +53,12 @@ import HomeFooterVue from "../../components/home_footer/HomeFooter.vue";
 import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
 
 export default {
-  components: { zsNavBar: ZsNavBarVue, homeFooter: HomeFooterVue }
+  components: { zsNavBar: ZsNavBarVue, homeFooter: HomeFooterVue },
+  methods: {
+    goUpdate(type) {
+      this.$router.push("/updateUserInfo?type=" + type);
+    }
+  }
 };
 </script>
 

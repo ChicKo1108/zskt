@@ -1,8 +1,10 @@
 <template>
   <div :class="typeToClass" class="zs-nav-bar">
-      <div v-if="type !== 'simple'" class="nav_bar_left"><img src="@/assets/images/arrow-left-white.png" alt=""></div>
-      <div class="nav_bar_title">{{title}}</div>
-      <div v-if="type !== 'simple'" class="nav_bar_right"><slot></slot></div>
+    <div @click="goBack" v-if="type !== 'simple'" class="nav_bar_left">
+      <img src="@/assets/images/arrow-left-white.png" alt="" />
+    </div>
+    <div class="nav_bar_title">{{ title }}</div>
+    <div v-if="type !== 'simple'" class="nav_bar_right"><slot></slot></div>
   </div>
 </template>
 
@@ -12,19 +14,24 @@ export default {
     title: String,
     type: {
       type: String,
-      default: 'default'
+      default: "default"
     }
   },
   computed: {
     typeToClass() {
       switch (this.type) {
-      case '':
-        return 'zs-nav-bar-default';
-      case 'simple':
-        return 'zs-nav-bar-simple';
+      case "default":
+        return "zs-nav-bar-default";
+      case "simple":
+        return "zs-nav-bar-simple";
       default:
-        return '';
+        return "";
       }
+    }
+  },
+  methods: {
+    goBack() {
+      this.$router.back();
     }
   }
 };
@@ -46,17 +53,19 @@ export default {
 }
 
 .zs-nav-bar-default {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .zs-nav-bar-simple {
-    line-height: 45px;
+  line-height: 45px;
 }
 
 .nav_bar_left > img {
-    width: 13px;
-    height: 22px;
+  width: 13px;
+  height: 22px;
+  position: relative;
+  top: 3px;
 }
 </style>
