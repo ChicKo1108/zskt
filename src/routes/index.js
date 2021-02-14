@@ -6,11 +6,13 @@ import Home from '@/pages/home/Home';
 /* lazy load. */
 const AddressHome = () => import(/* webpackChunkName: "address" */'@/pages/address_home/AddressHome');
 const MessageHome = () => import(/* webpackChunkName: "message" */'@/pages/message_home/MessageHome');
+const MyHome = () => import(/* webpackChunkName: "my" */'@/pages/my_home/MyHome');
 
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/addressHome', name: 'addressHome', component: AddressHome },
-  { path: '/messageHome', name: 'messageHome', component: MessageHome }
+  { path: '/messageHome', name: 'messageHome', component: MessageHome },
+  { path: '/myHome', name: 'myHome', component: MyHome }
 ];
 
 const router = new VueRouter({

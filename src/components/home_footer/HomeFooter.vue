@@ -67,7 +67,7 @@ export default {
           name: "我的",
           icon: require("@/assets/images/my.png"),
           selectedIcon: require("@/assets/images/my_selected.png"),
-          path: '/personalHome',
+          path: '/myHome',
           selected: this.index === 4
         }
       ]
