@@ -53,6 +53,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url("./MessageHome.css");
-</style>
+<style src="./MessageHome.css" scoped></style>
