@@ -2,11 +2,13 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
-// 引入路由
 import Home from '@/pages/home/Home';
+/* lazy load. */
+const MessageHome = () => import(/* webpackChunkName: "message" */ '@/pages/message_home/MessageHome');
 
 const routes = [
-  { path: '/', name: 'home', component: Home }
+  { path: '/', name: 'home', component: Home },
+  { path: '/messageHome', name: 'messageHome', component: MessageHome}
 ];
 
 const router = new VueRouter({

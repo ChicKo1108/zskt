@@ -1,0 +1,108 @@
+.message_home {
+    background-color: #fff;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding-top: 45px;
+}
+
+.search_bar {
+    height: 60px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+    padding: 12px 18px;
+}
+
+.search_box {
+    height: 35px;
+    border-radius: 23px;
+    overflow: hidden;
+    background-color: #eee;
+    position: relative;
+}
+
+.search_box>img {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 11px;
+    left: 16px;
+}
+
+.search_box>input {
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+    color: #333;
+    line-height: 35px;
+    padding-left: 40px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.search_box>input::placeholder {
+    color: #999;
+}
+
+.list_item {
+    height: 60px;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 12px 18px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.list_item:active {
+    background-color: #eee;
+}
+
+.avatar {
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.avatar>img {
+    width: 100%;
+    height: 100%;
+}
+
+.message_detail {
+    height: 36px;
+    flex: 1;
+}
+
+.base_info .name {
+    color: #333;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+.base_info .time {
+    color: #999;
+    font-size: 12px;
+}
+
+.info_content {
+    color: #999;
+    font-size: 12px;
+    line-height: 16px;
+    max-width: 70vw;
+}
+
+.unread_num {
+    background-color: #ff1c1c;
+    color: #fff;
+    font-size: 12px;
+    width: 17px;
+    height: 17px;
+    line-height: 17px;
+    text-align: center;
+    border-radius: 50%;
+    position: absolute;
+    right: 18px;
+    bottom: 11px;
+}
