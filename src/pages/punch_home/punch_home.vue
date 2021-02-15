@@ -57,7 +57,7 @@
             <img src="@/images/clock_selected.png" alt="">
             <span>考勤</span>
         </div>
-        <div class="icon">
+        <div @click="$router.replace('/punchStatistic')" class="icon">
             <img src="@/images/statistic.png" alt="">
             <span>统计</span>
         </div>
