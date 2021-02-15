@@ -78,6 +78,10 @@ export default {
       if(this.$route.path === path) {
         return;
       }
+      if(path === '/punchHome') {
+        this.$router.push(path);
+        return;
+      }
       this.$router.replace(path);
     }
   }
