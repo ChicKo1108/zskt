@@ -4,7 +4,7 @@
     <!-- 搜索框 -->
     <div class="search_bar">
       <div class="search_box">
-        <img src="@/assets/images/search.png" alt="" />
+        <img src="@/images/search.png" alt="" />
         <input type="text" placeholder="搜索" />
       </div>
     </div>
@@ -12,7 +12,7 @@
     <ul class="message_list">
       <li class="list_item flx flx-startX">
         <div class="avatar">
-          <img src="@/assets/images/default_avatar.png" alt="" />
+          <img src="@/images/default_avatar.png" alt="" />
         </div>
         <div class="message_detail flx-col flx-sbX">
           <div class="base_info flx flx-sbX">
@@ -27,7 +27,7 @@
       </li>
       <li class="list_item flx flx-startX">
         <div class="avatar">
-          <img src="@/assets/images/default_avatar.png" alt="" />
+          <img src="@/images/default_avatar.png" alt="" />
         </div>
         <div class="message_detail flx-col flx-sbX">
           <div class="base_info flx flx-sbX">

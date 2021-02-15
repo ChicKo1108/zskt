@@ -1,7 +1,7 @@
 <template>
   <div :class="typeToClass" class="zs-nav-bar">
     <div @click="goBack" v-if="type !== 'simple'" class="nav_bar_left">
-      <img src="@/assets/images/arrow-left-white.png" alt="" />
+      <img src="@/images/arrow-left-white.png" alt="" />
     </div>
     <div class="nav_bar_title">{{ title }}</div>
     <div v-if="type !== 'simple'" class="nav_bar_right"><slot></slot></div>

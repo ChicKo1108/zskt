@@ -44,7 +44,7 @@
             <div class="line_content">西北民族大学数计院</div>
           </div>
           <div class="line_right local">
-            <img src="@/assets/images/local.png" alt="" />
+            <img src="@/images/local.png" alt="" />
             <span>当前位置</span>
           </div>
         </div>
@@ -54,11 +54,11 @@
     <!-- Footer -->
     <div class="footer">
         <div class="icon selected">
-            <img src="@/assets/images/clock_selected.png" alt="">
+            <img src="@/images/clock_selected.png" alt="">
             <span>考勤</span>
         </div>
         <div class="icon">
-            <img src="@/assets/images/statistic.png" alt="">
+            <img src="@/images/statistic.png" alt="">
             <span>统计</span>
         </div>
     </div>

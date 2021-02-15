@@ -35,38 +35,38 @@ export default {
         {
           id: 1,
           name: "首页",
-          icon: require("@/assets/images/home.png"),
-          selectedIcon: require("@/assets/images/home_selected.png"),
+          icon: require("@/images/home.png"),
+          selectedIcon: require("@/images/home_selected.png"),
           path: '/',
           selected: this.index === 0
         },
         {
           id: 2,
           name: "消息",
-          icon: require("@/assets/images/message.png"),
-          selectedIcon: require("@/assets/images/message_selected.png"),
+          icon: require("@/images/message.png"),
+          selectedIcon: require("@/images/message_selected.png"),
           path: '/messageHome',
           selected: this.index === 1
         },
         {
           id: 3,
           name: "",
-          icon: require("@/assets/images/punch.png"),
+          icon: require("@/images/punch.png"),
           path: '/punchHome'
         },
         {
           id: 4,
           name: "通讯录",
-          icon: require("@/assets/images/note.png"),
-          selectedIcon: require("@/assets/images/note_selected.png"),
+          icon: require("@/images/note.png"),
+          selectedIcon: require("@/images/note_selected.png"),
           path: '/addressHome',
           selected: this.index === 3
         },
         {
           id: 5,
           name: "我的",
-          icon: require("@/assets/images/my.png"),
-          selectedIcon: require("@/assets/images/my_selected.png"),
+          icon: require("@/images/my.png"),
+          selectedIcon: require("@/images/my_selected.png"),
           path: '/myHome',
           selected: this.index === 4
         }

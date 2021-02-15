@@ -44,7 +44,7 @@
               <div class="address_content">西北民族大学数计院</div>
             </div>
             <div class="item_address_right">
-              <img src="@/assets/images/local.png" alt="" />
+              <img src="@/images/local.png" alt="" />
               <span>当前位置</span>
             </div>
           </li>
@@ -58,7 +58,7 @@
         </zs-button>
       </div>
       <div v-else class="default_hint">
-        <img src="@/assets/images/clock-gray.png" alt="" />
+        <img src="@/images/clock-gray.png" alt="" />
         您目前暂无班级，先去创建班级吧~
       </div>
     </div>
@@ -69,7 +69,7 @@
         <ul class="card_list">
           <li class="list_item class_item">
             <div class="class_avatar">
-              <img src="@/assets/images/default_avatar.png" alt="" />
+              <img src="@/images/default_avatar.png" alt="" />
             </div>
             <div class="class_info">
               <div class="info_detail">
@@ -77,13 +77,13 @@
                 <div class="msg">共23人 班长：王小明</div>
               </div>
               <div class="arrow">
-                <img src="@/assets/images/arrow_right_black.png" alt="" />
+                <img src="@/images/arrow_right_black.png" alt="" />
               </div>
             </div>
           </li>
           <li class="list_item class_item">
             <div class="class_avatar">
-              <img src="@/assets/images/default_avatar.png" alt="" />
+              <img src="@/images/default_avatar.png" alt="" />
             </div>
             <div class="class_info">
               <div class="info_detail">
@@ -91,13 +91,13 @@
                 <div class="msg">共23人 班长：王小明</div>
               </div>
               <div class="arrow">
-                <img src="@/assets/images/arrow_right_black.png" alt="" />
+                <img src="@/images/arrow_right_black.png" alt="" />
               </div>
             </div>
           </li>
           <li class="list_item class_item">
             <div class="class_avatar">
-              <img src="@/assets/images/default_avatar.png" alt="" />
+              <img src="@/images/default_avatar.png" alt="" />
             </div>
             <div class="class_info">
               <div class="info_detail">
@@ -105,17 +105,17 @@
                 <div class="msg">共23人 班长：王小明</div>
               </div>
               <div class="arrow">
-                <img src="@/assets/images/arrow_right_black.png" alt="" />
+                <img src="@/images/arrow_right_black.png" alt="" />
               </div>
             </div>
           </li>
         </ul>
         <div class="link">
-          管理全部班级<img src="@/assets/images/arrow_right_gray.png" alt="" />
+          管理全部班级<img src="@/images/arrow_right_gray.png" alt="" />
         </div>
       </div>
       <div v-else class="default_hint">
-        <img src="@/assets/images/clock-gray.png" alt="" />
+        <img src="@/images/clock-gray.png" alt="" />
         您目前暂无班级，先去创建班级吧~
       </div>
     </div>
@@ -134,7 +134,7 @@
             </div>
           </div>
           <div class="arrow">
-            <img src="@/assets/images/arrow_right_black.png" alt="" />
+            <img src="@/images/arrow_right_black.png" alt="" />
           </div>
           <div class="unread"></div>
         </li>
@@ -149,13 +149,13 @@
             </div>
           </div>
           <div class="arrow">
-            <img src="@/assets/images/arrow_right_black.png" alt="" />
+            <img src="@/images/arrow_right_black.png" alt="" />
           </div>
         </li>
       </ul>
       <div v-else class="default_hint">
         <img
-          src="@/assets/images/no-message.png"
+          src="@/images/no-message.png"
           style="width: 26px; height: 29px"
           alt=""
         />

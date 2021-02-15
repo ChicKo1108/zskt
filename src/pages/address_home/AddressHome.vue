@@ -6,22 +6,22 @@
       class="menu_btn"
       :style="{ transform: shouldShowMenu ? 'rotate(45deg)' : 'rotate(0deg)' }"
     >
-      <img src="@/assets/images/plus.png" alt="" />
+      <img src="@/images/plus.png" alt="" />
     </div>
     <div v-if="shouldShowMenu" class="menu">
       <div @click="closeMenu" class="btn">
-        <img src="@/assets/images/add.png" alt="" />
+        <img src="@/images/add.png" alt="" />
         创建班级
       </div>
       <div @click="closeMenu" class="btn">
-        <img src="@/assets/images/scan.png" alt="" />
+        <img src="@/images/scan.png" alt="" />
         扫一扫
       </div>
     </div>
     <!-- 搜索框 -->
     <div class="search_bar">
       <div class="search_box">
-        <img src="@/assets/images/search.png" alt="" />
+        <img src="@/images/search.png" alt="" />
         <input type="text" placeholder="搜索" />
       </div>
     </div>
@@ -30,7 +30,7 @@
       <li class="list_item">
         <div class="item_header">
           <div class="class_avatar">
-            <img src="@/assets/images/default_avatar.png" alt="" />
+            <img src="@/images/default_avatar.png" alt="" />
           </div>
           <div class="class_info">
             <div class="class_info_detail">
@@ -44,7 +44,7 @@
         <ul class="student_list">
           <li class="stu_item">
             <div class="stu_avatar">
-              <img src="@/assets/images/default_avatar.png" alt="" />
+              <img src="@/images/default_avatar.png" alt="" />
             </div>
             <div class="class_info">
               <div class="class_info_detail">
@@ -52,13 +52,13 @@
                 <div class="num">P171713280</div>
               </div>
               <div class="arrow">
-                <img src="@/assets/images/arrow_right_black.png" alt="" />
+                <img src="@/images/arrow_right_black.png" alt="" />
               </div>
             </div>
           </li>
           <li class="stu_item">
             <div class="stu_avatar">
-              <img src="@/assets/images/default_avatar.png" alt="" />
+              <img src="@/images/default_avatar.png" alt="" />
             </div>
             <div class="class_info">
               <div class="class_info_detail">
@@ -66,13 +66,13 @@
                 <div class="num">P171713280</div>
               </div>
               <div class="arrow">
-                <img src="@/assets/images/arrow_right_black.png" alt="" />
+                <img src="@/images/arrow_right_black.png" alt="" />
               </div>
             </div>
           </li>
           <li class="stu_item">
             <div class="stu_avatar">
-              <img src="@/assets/images/default_avatar.png" alt="" />
+              <img src="@/images/default_avatar.png" alt="" />
             </div>
             <div class="class_info">
               <div class="class_info_detail">
@@ -80,14 +80,14 @@
                 <div class="num">P171713280</div>
               </div>
               <div class="arrow">
-                <img src="@/assets/images/arrow_right_black.png" alt="" />
+                <img src="@/images/arrow_right_black.png" alt="" />
               </div>
             </div>
           </li>
         </ul>
         <div class="show_all_stu">
           展开全部班级成员
-          <img src="@/assets/images/arrow_down_blue.png" alt="" />
+          <img src="@/images/arrow_down_blue.png" alt="" />
         </div>
       </li>
     </ul>

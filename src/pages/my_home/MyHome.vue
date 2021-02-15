@@ -5,24 +5,24 @@
         <li class="item">
             <span class="title">头像</span>
             <div class="content avatar">
-                <img src="@/assets/images/default_avatar.png" alt="">
+                <img src="@/images/default_avatar.png" alt="">
             </div>
             <div class="arrow">
-                <img src="@/assets/images/arrow_right_black.png" alt="">
+                <img src="@/images/arrow_right_black.png" alt="">
             </div>
         </li>
         <li @click="goUpdate('realName')" class="item">
             <span class="title">姓名</span>
             <div class="content">王小明</div>
             <div class="arrow">
-                <img src="@/assets/images/arrow_right_black.png" alt="">
+                <img src="@/images/arrow_right_black.png" alt="">
             </div>
         </li>
         <li @click="goUpdate('userNo')" class="item">
             <span class="title">学号</span>
             <div class="content">P171713280</div>
             <div class="arrow">
-                <img src="@/assets/images/arrow_right_black.png" alt="">
+                <img src="@/images/arrow_right_black.png" alt="">
             </div>
         </li>
     </ul>
@@ -30,13 +30,13 @@
         <li @click="goUpdate('password')" class="item">
             <span class="content" style="font-size:14px;">修改密码</span>
             <div class="arrow">
-                <img src="@/assets/images/arrow_right_black.png" alt="">
+                <img src="@/images/arrow_right_black.png" alt="">
             </div>
         </li>
         <li @click="goUpdate('phone')" class="item">
             <span class="content" style="font-size:14px;">修改手机号</span>
             <div class="arrow">
-                <img src="@/assets/images/arrow_right_black.png" alt="">
+                <img src="@/images/arrow_right_black.png" alt="">
             </div>
         </li>
     </ul>
