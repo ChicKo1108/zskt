@@ -10,6 +10,7 @@ const MyHome = () => import(/* webpackChunkName: "my" */'@/pages/my_home/MyHome'
 const UpdateUserInfo = () => import(/* webpackChunkName: "UpdateUserInfo" */'@/pages/update_user_info/UpdateUserInfo');
 const PunchHome = () => import(/* webpackChunkName: "PunchHome" */'@/pages/punch_home/punch_home');
 const PunchStatistic = () => import(/* webpackChunkName: "PunchStatistic" */'@/pages/punch_statistic/punch_statistic');
+const PunchDetail = () => import(/* webpackChunkName: "PunchDetail" */'@/pages/punch_detail/punch_detail');
 
 const routes = [
   { path: '/', name: 'home', component: Home },
@@ -18,7 +19,8 @@ const routes = [
   { path: '/myHome', name: 'myHome', component: MyHome },
   { path: '/updateUserInfo', name: 'updateUserInfo', component: UpdateUserInfo },
   { path: '/punchHome', name: 'punchHome', component: PunchHome },
-  { path: '/punchStatistic', name: 'punchStatistic', component: PunchStatistic }
+  { path: '/punchStatistic', name: 'punchStatistic', component: PunchStatistic },
+  { path: '/punchDetail', name: 'punchDetail', component: PunchDetail}
 ];
 
 const router = new VueRouter({
