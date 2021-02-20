@@ -12,6 +12,7 @@ const PunchHome = () => import(/* webpackChunkName: "PunchHome" */'@/pages/punch
 const PunchStatistic = () => import(/* webpackChunkName: "PunchStatistic" */'@/pages/punch_statistic/punch_statistic');
 const PunchDetail = () => import(/* webpackChunkName: "PunchDetail" */'@/pages/punch_detail/punch_detail');
 const InfoPage = () => import(/* webpackChunkName: "InfoPage" */'@/pages/info_page/info_page');
+const CreateClass = () => import(/* webpackChunkName: "CreateClass" */'@/pages/create_class/create_class');
 
 const routes = [
   { path: '/', name: 'home', component: Home },
@@ -22,7 +23,8 @@ const routes = [
   { path: '/punchHome', name: 'punchHome', component: PunchHome },
   { path: '/punchStatistic', name: 'punchStatistic', component: PunchStatistic },
   { path: '/punchDetail', name: 'punchDetail', component: PunchDetail },
-  { path: '/infoPage', name: 'infoPage', component: InfoPage }
+  { path: '/infoPage', name: 'infoPage', component: InfoPage },
+  { path: '/createClass', name: 'createClass', component: CreateClass }
 ];
 
 const router = new VueRouter({

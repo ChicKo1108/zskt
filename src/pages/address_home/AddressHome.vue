@@ -9,7 +9,7 @@
       <img src="@/images/plus.png" alt="" />
     </div>
     <div v-if="shouldShowMenu" class="menu">
-      <div @click="closeMenu" class="btn">
+      <div @click="goCreateClass" class="btn">
         <img src="@/images/add.png" alt="" />
         创建班级
       </div>
@@ -123,6 +123,10 @@ export default {
       this.$router.push(
         `/infoPage?id=${id}&mode=${isClassMode ? "class" : "stu"}`
       );
+    },
+    goCreateClass() {
+      this.closeMenu();
+      this.$router.push('/createClass');
     }
   }
 };
