@@ -32,7 +32,7 @@
           <div class="class_avatar">
             <img src="@/images/default_avatar.png" alt="" />
           </div>
-          <div class="class_info">
+          <div class="class_info" @click="viewInfoPage('1231123', true)">
             <div class="class_info_detail">
               <div class="name">2017级软件工程1班</div>
               <div class="num">共32人</div>
@@ -46,7 +46,7 @@
             <div class="stu_avatar">
               <img src="@/images/default_avatar.png" alt="" />
             </div>
-            <div class="class_info">
+            <div class="class_info" @click="viewInfoPage('1231123')">
               <div class="class_info_detail">
                 <div class="name" style="font-size: 14px">王小明</div>
                 <div class="num">P171713280</div>
@@ -60,7 +60,7 @@
             <div class="stu_avatar">
               <img src="@/images/default_avatar.png" alt="" />
             </div>
-            <div class="class_info">
+            <div class="class_info" @click="viewInfoPage('1231123')">
               <div class="class_info_detail">
                 <div class="name" style="font-size: 14px">王小明</div>
                 <div class="num">P171713280</div>
@@ -74,7 +74,7 @@
             <div class="stu_avatar">
               <img src="@/images/default_avatar.png" alt="" />
             </div>
-            <div class="class_info">
+            <div class="class_info" @click="viewInfoPage('1231123')">
               <div class="class_info_detail">
                 <div class="name" style="font-size: 14px">王小明</div>
                 <div class="num">P171713280</div>
@@ -118,6 +118,11 @@ export default {
       } else {
         this.showMenu();
       }
+    },
+    viewInfoPage(id, isClassMode) {
+      this.$router.push(
+        `/infoPage?id=${id}&mode=${isClassMode ? "class" : "stu"}`
+      );
     }
   }
 };
