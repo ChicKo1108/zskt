@@ -53,7 +53,7 @@
   overflow: hidden;
 }
 
-.base_info_ipt > input {
+.base_info_ipt>input {
   width: 100%;
   height: 100%;
   border: none;
@@ -64,33 +64,27 @@
 
 .switch {
   flex: 1;
-  height: 30px;
+  height: 24px;
   border: 1px solid #1c7eff;
-  border-radius: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  border-radius: 16px;
   overflow: hidden;
   background-color: #1c7eff;
-  font-size: 14px;
-  max-width: 60px;
+  max-width: 44px;
+  margin-left: auto;
+  padding: 1px 2px;
+  position: relative;
+  transition: background .3s, border-color .3s;
 }
 
-.switch .on {
-  background-color: #1c7eff;
-  color: #fff;
-  flex: 1;
-  text-align: center;
-  line-height: 27px;
-  height: 27px;
-}
-
-.switch .off {
-  height: 27px;
-  border-radius: 15px;
+.switch span {
+  display: block;
+  height: 23px;
+  width: 23px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-100%);
   background-color: #fff;
-  color: #1c7eff;
-  flex: 1;
-  text-align: center;
-  line-height: 27px;
+  border-radius: 50%;
+  transition: transform .3s;
 }
