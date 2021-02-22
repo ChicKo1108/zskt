@@ -29,13 +29,16 @@
               <span>结束时间</span>
             </div>
             <div class="line_content time_content">
-              <span>13:01</span>
+              <span @click="openPicker('startTimePicker')">
+                {{ startTime }}
+              </span>
               <span>-</span>
-              <span>13:01</span>
+              <span @click="openPicker('endTimePicker')">{{ endTime }}</span>
             </div>
           </div>
           <div class="line_right" style="margin-right: 9px">
-            共<span class="total_time">0</span>分钟
+            共<span class="total_time">{{ intervalTime }}</span
+            >分钟
           </div>
         </div>
         <div class="card_line">
@@ -49,19 +52,36 @@
           </div>
         </div>
       </div>
-      <zs-button :height="40" style="margin: 14px auto 0 auto;width:70%;">开始考勤</zs-button>
+      <zs-button :height="40" style="margin: 14px auto 0 auto;width:70%;"
+        >开始考勤</zs-button
+      >
     </div>
     <!-- Footer -->
     <div class="footer">
-        <div class="icon selected">
-            <img src="@/images/clock_selected.png" alt="">
-            <span>考勤</span>
-        </div>
-        <div @click="$router.replace('/punchStatistic')" class="icon">
-            <img src="@/images/statistic.png" alt="">
-            <span>统计</span>
-        </div>
+      <div class="icon selected">
+        <img src="@/images/clock_selected.png" alt="" />
+        <span>考勤</span>
+      </div>
+      <div @click="$router.replace('/punchStatistic')" class="icon">
+        <img src="@/images/statistic.png" alt="" />
+        <span>统计</span>
+      </div>
     </div>
+    <!-- ActionSheet -->
+    <mt-actionsheet :actions="actions" v-model="sheetVisible"></mt-actionsheet>
+    <!-- mt-datetime-picker -->
+    <mt-datetime-picker
+      ref="startTimePicker"
+      type="time"
+      @confirm="setStartTime"
+      v-model="startTime"
+    />
+    <mt-datetime-picker
+      ref="endTimePicker"
+      type="time"
+      @confirm="setEndTime"
+      v-model="endTime"
+    />
   </div>
 </template>
 
@@ -69,23 +89,106 @@
 import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import ZsButtonVue from "../../components/zs_button/ZsButton.vue";
+import { Toast } from "mint-ui";
 export default {
   components: { zsNavBar: ZsNavBarVue, zsButton: ZsButtonVue },
+  data() {
+    return {
+      sheetVisible: false,
+      startTime: "13:30",
+      endTime: "13:30",
+      actions: [{ name: "确定", methods: () => {} }]
+    };
+  },
   mounted() {
     this.loadMap();
+    this.setDefaultTime();
   },
   methods: {
     loadMap() {
       AMapLoader.load({
         key: "b82a4b0b0256eb54e5cbf62fda794bc8",
-        plugins: []
+        zoom: 20,
+        plugins: ["AMap.Geolocation"]
       })
-        .then((Amap) => {
-          new Amap.Map("map");
+        .then((AMap) => {
+          const map = new AMap.Map("map");
+          map.setZoom(14);
+          // 定位插件
+          const geolocation = new AMap.Geolocation({
+            // 设置定位超时时间，默认：无穷大
+            timeout: 10000,
+            // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
+            buttonOffset: new AMap.Pixel(0, 0),
+            zoomToAccuracy: true,
+            buttonPosition: "RT",
+            panToLocation: true
+          });
+          geolocation.getCurrentPosition(function(status, result) {
+            if (status == "complete") {
+              onComplete(result);
+            } else {
+              onError(result);
+            }
+          });
+
+          function onComplete(data) {
+            // data是具体的定位信息
+            const { lng, lat } = data.position;
+            const position = new AMap.LngLat(lng, lat);
+            map.setCenter(position);
+            // 添加考勤点
+            const marker = new AMap.Marker({
+              position,
+              title: "考勤中心"
+            });
+            map.add(marker);
+          }
+
+          function onError() {
+            // 定位出错
+          }
         })
         .catch((err) => {
           console.error(err);
         });
+    },
+    setStartTime() {
+      this.checkTime();
+    },
+    setEndTime() {
+      const result = this.checkTime();
+      if (result) {
+        Toast("结束时间应该晚于开始时间");
+      }
+    },
+    checkTime() {
+      const startHours = this.startTime ? this.startTime.split(":")[0] : 0;
+      const startMin = this.startTime ? this.startTime.split(":")[1] : 0;
+      const endHours = this.endTime ? this.endTime.split(":")[0] : 0;
+      const endMin = this.endTime ? this.endTime.split(":")[1] : 0;
+      if(startHours > endHours || (startHours === endHours && startMin > endMin)) {
+        this.endTime = this.startTime;
+        return true;
+      }
+      return false;
+    },
+    openPicker(pickerName) {
+      this.$refs[pickerName].open();
+    },
+    setDefaultTime() {
+      const nowTime = new Date().getHours() + ":" + new Date().getMinutes();
+      this.startTime = nowTime;
+      this.endTime = nowTime;
+    }
+  },
+  computed: {
+    intervalTime() {
+      const startHours = this.startTime ? this.startTime.split(":")[0] : 0;
+      const startMin = this.startTime ? this.startTime.split(":")[1] : 0;
+      const endHours = this.endTime ? this.endTime.split(":")[0] : 0;
+      const endMin = this.endTime ? this.endTime.split(":")[1] : 0;
+      return endHours * 60 + endMin - (startHours * 60 + startMin);
     }
   }
 };
