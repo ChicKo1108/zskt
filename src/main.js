@@ -5,6 +5,10 @@ import '@/lib/common.css';
 import echarts from "echarts";
 import Mint from 'mint-ui';
 import 'mint-ui/lib/style.css';
+import axios from 'axios';
+
+// 挂载axios
+Vue.prototype.$axios = axios;
 
 // 挂载mintUI
 Vue.use(Mint);
