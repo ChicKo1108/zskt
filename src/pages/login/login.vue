@@ -102,6 +102,7 @@
 <script>
 import ZsButtonVue from "../../components/zs_button/ZsButton.vue";
 import UserAPI from "../../api/userAPI";
+import { Toast } from "mint-ui";
 export default {
   components: { zsButton: ZsButtonVue },
   data() {
@@ -130,11 +131,11 @@ export default {
     },
     doRegister() {
       if (this.password !== this.checkPassword) {
-        alert("密码不一致！");
+        Toast("密码不一致");
         return false;
       }
       if (!this.role) {
-        alert("请选择身份");
+        Toast("请选择身份！");
         return false;
       }
       UserAPI.register({
@@ -142,19 +143,29 @@ export default {
         password: this.password,
         phone: this.phone,
         role: this.role
+      }).then(res => {
+        const {data} = res;
+        if(data.msg === 'OK') {
+          Toast("登录成功");
+          this.$router.replace('/');
+        } else if (data.msg === 'INVALID_INFO') {
+          Toast("用户名或密码不正确");
+        } else {
+          Toast("服务器错误，请重试");
+        }
       });
     },
-    doLogin(){
-      UserAPI.login(this.phone, this.password).then(({data}) => {
+    doLogin() {
+      UserAPI.login(this.phone, this.password).then(({ data }) => {
         console.log(data);
-        if(data.msg === "OK") {
-          console.log('login success');
-          this.$router.replace('/');
+        if (data.msg === "OK") {
+          console.log("login success");
+          this.$router.replace("/");
         }
       });
     },
     doSubmit() {
-      if(this.mode === "register") {
+      if (this.mode === "register") {
         this.doRegister();
       } else {
         console.log(1);

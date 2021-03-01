@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import { Toast } from 'mint-ui';
 Vue.use(VueRouter);
 
 import Home from '@/pages/home/Home';
+import axios from 'axios';
 /* lazy load. */
 const AddressHome = () => import(/* webpackChunkName: "AddressHome" */'@/pages/address_home/AddressHome');
 const MessageHome = () => import(/* webpackChunkName: "MessageHome" */'@/pages/message_home/MessageHome');
@@ -33,6 +35,26 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+});
+
+// 除登录页以外都要进行登录验证
+router.beforeEach((to, from, next) => {
+  if (to.name !== "login") {
+    axios.post('/api/user/checkLogin').then((res) => {
+      console.log(res);
+      if (res.data === 'OK') {
+        next();
+      } else {
+        Toast("登录失效，请重新登录");
+        next({ name: 'login' });
+      }
+    }).catch(() => {
+      Toast("登录失效，请重新登录");
+      next({ name: 'login' });
+    });
+  } else {
+    next();
+  }
 });
 
 export default router;

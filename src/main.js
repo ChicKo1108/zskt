@@ -4,6 +4,7 @@ import router from './routes/index'; // 通过this.$router访问路由器，通�
 import '@/lib/common.css';
 import echarts from "echarts";
 import Mint from 'mint-ui';
+import { Toast } from 'mint-ui';
 import 'mint-ui/lib/style.css';
 import axios from 'axios';
 
@@ -12,6 +13,7 @@ Vue.prototype.$axios = axios;
 
 // 挂载mintUI
 Vue.use(Mint);
+Vue.prototype.$toast = Toast;
 // 挂载echarts
 Vue.prototype.$echarts = echarts;
 

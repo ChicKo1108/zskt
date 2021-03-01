@@ -6,15 +6,21 @@
       <div class="block">
         <div class="line">
           <div class="base_info_name">班级名称</div>
-          <div class="base_info_ipt"><input type="text" /></div>
+          <div class="base_info_ipt">
+            <input v-model="className" type="text" />
+          </div>
         </div>
         <div class="line">
           <div class="base_info_name">所属学校</div>
-          <div class="base_info_ipt"><input type="text" /></div>
+          <div class="base_info_ipt">
+            <input v-model="school" type="text" />
+          </div>
         </div>
         <div class="line">
           <div class="base_info_name">学院</div>
-          <div class="base_info_ipt"><input type="text" /></div>
+          <div class="base_info_ipt">
+            <input v-model="college" type="text" />
+          </div>
         </div>
       </div>
     </div>
@@ -22,10 +28,10 @@
       <div class="block_title">通用功能</div>
       <div class="block">
         <div class="line">
-          <div class="base_info_name" style="width: auto">
-            导入其他班级学生
+          <div class="base_info_name" style="width: auto">导入其他班级学生</div>
+          <div class="base_info_ipt">
+            <input v-model="importClassId" type="text" />
           </div>
-          <div class="base_info_ipt"><input type="text" /></div>
         </div>
         <div class="line">
           <div class="base_info_name" style="width: auto">
@@ -50,23 +56,54 @@
         </div>
       </div>
     </div>
-    <zs-button class="create_class_btn">创建班级</zs-button>
+    <zs-button :onClick="createClass" class="create_class_btn"
+      >创建班级</zs-button
+    >
   </div>
 </template>
 
 <script>
 import ZsButtonVue from "../../components/zs_button/ZsButton.vue";
 import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
+import userAPI from "../../api/classAPI";
 export default {
   components: { zsNavBar: ZsNavBarVue, zsButton: ZsButtonVue },
   data() {
     return {
-      canSearch: true
+      canSearch: true,
+      className: "",
+      school: "",
+      college: "",
+      importClassId: ""
     };
   },
   methods: {
     toggleSearch() {
       this.canSearch = !this.canSearch;
+    },
+    createClass() {
+      if (!this.className) {
+        this.$toast("请输入班级名称！");
+        return;
+      }
+      userAPI
+        .create({
+          className: this.className,
+          school: this.school,
+          college: this.college,
+          canSearch: this.canSearch
+        })
+        .then(({ data }) => {
+          if (data.msg === "OK") {
+            this.$toast("创建成功");
+            this.$router.go(-1);
+          } else {
+            this.$toast("服务器错误，请重试");
+          }
+        })
+        .catch(() => {
+          this.$toast("服务器错误，请重试");
+        });
     }
   }
 };
