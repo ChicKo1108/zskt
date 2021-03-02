@@ -31,10 +31,20 @@
   justify-content: flex-start;
   align-items: center;
   margin-top: 20px;
+  position: relative;
 }
 
 .line:first-child {
   margin: 0;
+}
+
+.tip {
+  color: red;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 12px;
+  transform: translateY(100%);
 }
 
 .base_info_name {

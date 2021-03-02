@@ -30,8 +30,14 @@
         <div class="line">
           <div class="base_info_name" style="width: auto">导入其他班级学生</div>
           <div class="base_info_ipt">
-            <input v-model="importClassId" type="text" />
+            <input
+              @blur="findClassById"
+              v-model="importClassId"
+              type="text"
+              placeholder="请输入班级Id"
+            />
           </div>
+          <div :style="{color: tipsColor}" class="tip">{{ tips }}</div>
         </div>
         <div class="line">
           <div class="base_info_name" style="width: auto">
@@ -74,7 +80,9 @@ export default {
       className: "",
       school: "",
       college: "",
-      importClassId: ""
+      importClassId: "",
+      tips: "",
+      tipsColor: "red"
     };
   },
   methods: {
@@ -103,6 +111,29 @@ export default {
         })
         .catch(() => {
           this.$toast("服务器错误，请重试");
+        });
+    },
+    findClassById() {
+      if (!this.importClassId) {
+        this.tips = "";
+        return false;
+      }
+      userAPI
+        .findById(this.importClassId)
+        .then(({ data }) => {
+          if (data.msg === "OK") {
+            this.tips = "搜索到班级：" + data.data.className;
+            this.tipsColor = '#1c7eff';
+          } else if (data.msg === "NOT_FOUND") {
+            this.tips = "未搜索到classId为“" + this.importClassId + "”的班级";
+            this.tipsColor = 'red';
+          }
+        })
+        .catch(() => {
+          this.$toast({
+            message: "服务器出错啦QAQ",
+            duration: 1000
+          });
         });
     }
   }
