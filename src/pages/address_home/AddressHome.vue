@@ -98,12 +98,18 @@
 <script>
 import HomeFooterVue from "../../components/home_footer/HomeFooter.vue";
 import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
+import classAPI from '../../api/classAPI';
 export default {
   components: { ZsNavBar: ZsNavBarVue, HomeFooter: HomeFooterVue },
   data() {
     return {
       shouldShowMenu: false
     };
+  },
+  mounted() {
+    classAPI.getMyClassList().then(({data}) => {
+      console.log(data);
+    });
   },
   methods: {
     showMenu() {

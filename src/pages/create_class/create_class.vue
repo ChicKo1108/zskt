@@ -125,7 +125,7 @@ export default {
             this.tips = "搜索到班级：" + data.data.className;
             this.tipsColor = '#1c7eff';
           } else if (data.msg === "NOT_FOUND") {
-            this.tips = "未搜索到classId为“" + this.importClassId + "”的班级";
+            this.tips = "未搜索到classId为“ " + this.importClassId + " ”的班级";
             this.tipsColor = 'red';
           }
         })
