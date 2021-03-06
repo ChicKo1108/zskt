@@ -52,9 +52,13 @@
           </div>
         </div>
       </div>
-      <zs-button :height="40" style="margin: 14px auto 0 auto;width:70%;"
-        >开始考勤</zs-button
+      <zs-button
+       :height="40" 
+       style="margin: 14px auto 0 auto;width:70%;"
+       :onClick="createPunch"
       >
+        开始考勤
+      </zs-button>
     </div>
     <!-- Footer -->
     <div class="footer">
@@ -67,8 +71,6 @@
         <span>统计</span>
       </div>
     </div>
-    <!-- ActionSheet -->
-    <mt-actionsheet :actions="actions" v-model="sheetVisible"></mt-actionsheet>
     <!-- mt-datetime-picker -->
     <mt-datetime-picker
       ref="startTimePicker"
@@ -90,6 +92,9 @@ import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import ZsButtonVue from "../../components/zs_button/ZsButton.vue";
 import { Toast } from "mint-ui";
+import jsUtils from '../../lib/jsUtils.js';
+import classAPI from "../../api/classAPI.js";
+import punchAPI from "../../api/punchAPI.js";
 export default {
   components: { zsNavBar: ZsNavBarVue, zsButton: ZsButtonVue },
   data() {
@@ -97,15 +102,24 @@ export default {
       sheetVisible: false,
       startTime: "13:30",
       endTime: "13:30",
-      actions: [{ name: "确定", methods: () => {} }]
+      classList: [],
+      lng: "",
+      lat: "",
+      address: "暂时固定地名"
     };
   },
   mounted() {
-    this.loadMap();
+    this.loadMap(this);
     this.setDefaultTime();
+    classAPI.getMyClassList().then(({ data }) => {
+      if (data && data.length) {
+        data[0].selected = true;
+      }
+      this.classList = data;
+    });
   },
   methods: {
-    loadMap() {
+    loadMap(that) {
       AMapLoader.load({
         key: "b82a4b0b0256eb54e5cbf62fda794bc8",
         zoom: 20,
@@ -143,10 +157,14 @@ export default {
               title: "考勤中心"
             });
             map.add(marker);
+            // 保存 lng, lat 数据
+            that.lng = lng;
+            that.lat = lat;
           }
 
-          function onError() {
+          function onError(data) {
             // 定位出错
+            console.error(data);
           }
         })
         .catch((err) => {
@@ -167,7 +185,10 @@ export default {
       const startMin = this.startTime ? this.startTime.split(":")[1] : 0;
       const endHours = this.endTime ? this.endTime.split(":")[0] : 0;
       const endMin = this.endTime ? this.endTime.split(":")[1] : 0;
-      if(startHours > endHours || (startHours === endHours && startMin > endMin)) {
+      if (
+        startHours > endHours ||
+        (startHours === endHours && startMin > endMin)
+      ) {
         this.endTime = this.startTime;
         return true;
       }
@@ -180,6 +201,26 @@ export default {
       const nowTime = new Date().getHours() + ":" + new Date().getMinutes();
       this.startTime = nowTime;
       this.endTime = nowTime;
+    },
+    createPunch() {
+      console.log(1);
+      const { classList, lng, lat, address, startTime, endTime } = this.$data;
+      if(endTime <= startTime) {
+        Toast("结束时间应该晚于开始时间");
+        return;
+      }
+      punchAPI
+        .createPunch({
+          classId: classList.find((v) => v.selected).id,
+          lng,
+          lat,
+          address,
+          startTime: jsUtils.getTimestamp(startTime),
+          endTime: jsUtils.getTimestamp(endTime)
+        })
+        .then((res) => {
+          console.log(res);
+        });
     }
   },
   computed: {

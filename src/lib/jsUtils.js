@@ -15,7 +15,12 @@ function getStringLocalTime() {
   }
 }
 
+function getTimestamp(Hm) {
+  return new Date(
+    new Date(new Date().setHours(Number(Hm.split(":")[0]))).setMinutes(
+      Number(Hm.split(":")[1])
+    )
+  ).setSeconds(0);
+}
 
-export {
-  getStringLocalTime
-};
+module.exports = { getStringLocalTime, getTimestamp };

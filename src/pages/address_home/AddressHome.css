@@ -72,6 +72,13 @@
     border-radius: 20px;
     overflow: hidden;
     margin-right: 12px;
+    background-color: #539CFC;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    line-height: 16px;
+    padding: 3px;
+    box-sizing: border-box;
 }
 
 .class_avatar>img {

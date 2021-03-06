@@ -27,57 +27,30 @@
     </div>
     <!-- 班级聚合chunk -->
     <ul class="class_chunk_list">
-      <li class="list_item">
+      <li v-for="(cls, idx) in classList" :key="cls.id" :hidden="cls.needHide ? idx >= 3 : false" class="list_item">
         <div class="item_header">
-          <div class="class_avatar">
-            <img src="@/images/default_avatar.png" alt="" />
-          </div>
+          <div class="class_avatar">{{cls.className}}</div>
           <div class="class_info" @click="viewInfoPage('1231123', true)">
             <div class="class_info_detail">
-              <div class="name">2017级软件工程1班</div>
-              <div class="num">共32人</div>
+              <div class="name">{{ cls.className }}</div>
+              <div class="num">共{{ cls.studentList.length }}人</div>
             </div>
             <div class="link">班级群</div>
           </div>
         </div>
         <!-- 学生列表 -->
-        <ul class="student_list">
+        <ul v-for="stu in cls.studentList" :key="stu.id" class="student_list">
           <li class="stu_item">
             <div class="stu_avatar">
-              <img src="@/images/default_avatar.png" alt="" />
+              <img
+                :src="stu.avatar || require('@/images/default_avatar.png')"
+                alt=""
+              />
             </div>
             <div class="class_info" @click="viewInfoPage('1231123')">
               <div class="class_info_detail">
-                <div class="name" style="font-size: 14px">王小明</div>
-                <div class="num">P171713280</div>
-              </div>
-              <div class="arrow">
-                <img src="@/images/arrow_right_black.png" alt="" />
-              </div>
-            </div>
-          </li>
-          <li class="stu_item">
-            <div class="stu_avatar">
-              <img src="@/images/default_avatar.png" alt="" />
-            </div>
-            <div class="class_info" @click="viewInfoPage('1231123')">
-              <div class="class_info_detail">
-                <div class="name" style="font-size: 14px">王小明</div>
-                <div class="num">P171713280</div>
-              </div>
-              <div class="arrow">
-                <img src="@/images/arrow_right_black.png" alt="" />
-              </div>
-            </div>
-          </li>
-          <li class="stu_item">
-            <div class="stu_avatar">
-              <img src="@/images/default_avatar.png" alt="" />
-            </div>
-            <div class="class_info" @click="viewInfoPage('1231123')">
-              <div class="class_info_detail">
-                <div class="name" style="font-size: 14px">王小明</div>
-                <div class="num">P171713280</div>
+                <div class="name" style="font-size: 14px">{{stu.realName}}</div>
+                <div class="num">{{stu.sno || '未填写学号'}}</div>
               </div>
               <div class="arrow">
                 <img src="@/images/arrow_right_black.png" alt="" />
@@ -85,7 +58,7 @@
             </div>
           </li>
         </ul>
-        <div class="show_all_stu">
+        <div v-if="cls.studentList.length > 3" class="show_all_stu">
           展开全部班级成员
           <img src="@/images/arrow_down_blue.png" alt="" />
         </div>
@@ -98,17 +71,19 @@
 <script>
 import HomeFooterVue from "../../components/home_footer/HomeFooter.vue";
 import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
-import classAPI from '../../api/classAPI';
+import classAPI from "../../api/classAPI";
 export default {
   components: { ZsNavBar: ZsNavBarVue, HomeFooter: HomeFooterVue },
   data() {
     return {
-      shouldShowMenu: false
+      shouldShowMenu: false,
+      classList: []
     };
   },
   mounted() {
-    classAPI.getMyClassList().then(({data}) => {
-      console.log(data);
+    classAPI.getMyClassList().then(({ data }) => {
+      data.forEach(cls => cls.needHide = true);
+      this.classList = data;
     });
   },
   methods: {
@@ -132,7 +107,7 @@ export default {
     },
     goCreateClass() {
       this.closeMenu();
-      this.$router.push('/createClass');
+      this.$router.push("/createClass");
     }
   }
 };
