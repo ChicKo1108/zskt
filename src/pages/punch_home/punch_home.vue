@@ -10,7 +10,13 @@
         <div class="card_line">
           <div class="line_left">
             <div class="line_title">考勤班级</div>
-            <div class="line_content">2017级软件工程1班</div>
+            <div class="line_content">
+              {{
+                classList.find((v) => v.selected)
+                  ? classList.find((v) => v.selected).className
+                  : ""
+              }}
+            </div>
           </div>
           <div class="line_right">
             <zs-button
@@ -37,8 +43,9 @@
             </div>
           </div>
           <div class="line_right" style="margin-right: 9px">
-            共<span class="total_time">{{ intervalTime }}</span
-            >分钟
+            共
+            <span class="total_time">{{ intervalTime }}</span>
+            分钟
           </div>
         </div>
         <div class="card_line">
@@ -53,11 +60,21 @@
         </div>
       </div>
       <zs-button
-       :height="40" 
-       style="margin: 14px auto 0 auto;width:70%;"
-       :onClick="createPunch"
+        v-if="showPunchBtn"
+        :height="40"
+        style="margin: 14px auto 0 auto;width:70%;"
+        :onClick="createPunch"
       >
         开始考勤
+      </zs-button>
+      <zs-button
+        v-else
+        :height="40"
+        style="margin: 14px auto 0 auto;width:70%;"
+        type="danger"
+        :onClick="stopPunch"
+      >
+        考勤中 剩余{{ countDownTime }}
       </zs-button>
     </div>
     <!-- Footer -->
@@ -92,7 +109,7 @@ import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import ZsButtonVue from "../../components/zs_button/ZsButton.vue";
 import { Toast } from "mint-ui";
-import jsUtils from '../../lib/jsUtils.js';
+import jsUtils from "../../lib/jsUtils.js";
 import classAPI from "../../api/classAPI.js";
 import punchAPI from "../../api/punchAPI.js";
 export default {
@@ -105,18 +122,48 @@ export default {
       classList: [],
       lng: "",
       lat: "",
-      address: "暂时固定地名"
+      address: "暂时固定地名",
+      timerId: "",
+      countDownTime: "",
+      punchId: "",
+      showPunchBtn: true
     };
   },
   mounted() {
     this.loadMap(this);
     this.setDefaultTime();
-    classAPI.getMyClassList().then(({ data }) => {
-      if (data && data.length) {
-        data[0].selected = true;
+    Promise.all([classAPI.getMyClassList(), punchAPI.getPunchingList()]).then(
+      (res) => {
+        const classList = res[0].data;
+        const punchingList = res[1].data;
+        if (punchingList.length) {
+          punchingList.forEach((punching) => {
+            classList.forEach((cls) => {
+              if (cls.id === punching.ClassId) {
+                cls.isPunching = true;
+                cls.punchingInfo = punching;
+              }
+            });
+            this.classList = [
+              ...classList.filter((v) => v.isPunching),
+              ...classList.filter((v) => !v.isPunching)
+            ];
+            this.classList[0].selected = true;
+            this.startTime = this.formatTimeHm(classList[0].punchingInfo.startTime);
+            this.endTime = this.formatTimeHm(classList[0].punchingInfo.endTime);
+            this.lng = classList[0].punchingInfo.lng;
+            this.lat = classList[0].punchingInfo.lat;
+            this.address = classList[0].punchingInfo.address;
+            this.punchId = classList[0].punchingInfo.id;
+            this.showPunchBtn = false;
+            this.beginInterval();
+          });
+        } else {
+          classList[0].selected = true;
+          this.classList = classList;
+        }
       }
-      this.classList = data;
-    });
+    );
   },
   methods: {
     loadMap(that) {
@@ -171,6 +218,34 @@ export default {
           console.error(err);
         });
     },
+    beginInterval() {
+      this.timerId = setInterval(() => {
+        const now = new Date();
+        const endTime = jsUtils.getTimestamp(this.endTime);
+        if (now >= endTime) {
+          clearInterval(this.timerId);
+          this.classList.find(v => v.selected).isPunching = false;
+          this.$alert({
+            title: "考勤结束",
+            message: "您可在考勤统计中查看结果",
+            showCancelButton: true,
+            confirmButtonText: "立即查看",
+            cancelButtonText: "我知道了"
+          }).then((action) => {
+            if (action === "confirm") {
+              console.log(1);
+            } else {
+              console.log(2);
+            }
+          });
+        }
+        this.countDownTime =
+                new Date(endTime - now).getMinutes() +
+                "分" +
+                new Date(endTime - now).getSeconds() +
+                "秒";
+      }, 1000);
+    },
     setStartTime() {
       this.checkTime();
     },
@@ -179,6 +254,9 @@ export default {
       if (result) {
         Toast("结束时间应该晚于开始时间");
       }
+    },
+    formatTimeHm(time) {
+      return `${new Date(time).getHours()}:${new Date(time).getMinutes()}`;
     },
     checkTime() {
       const startHours = this.startTime ? this.startTime.split(":")[0] : 0;
@@ -203,9 +281,8 @@ export default {
       this.endTime = nowTime;
     },
     createPunch() {
-      console.log(1);
       const { classList, lng, lat, address, startTime, endTime } = this.$data;
-      if(endTime <= startTime) {
+      if (jsUtils.getTimestamp(endTime) <= jsUtils.getTimestamp(startTime)) {
         Toast("结束时间应该晚于开始时间");
         return;
       }
@@ -218,18 +295,44 @@ export default {
           startTime: jsUtils.getTimestamp(startTime),
           endTime: jsUtils.getTimestamp(endTime)
         })
-        .then((res) => {
-          console.log(res);
+        .then(({ data }) => {
+          if (data.msg === "OK") {
+            this.showPunchBtn = false;
+            this.punchId = data.data.id;
+            this.beginInterval();
+            this.classList.find(v => v.selected).isPunching = true;
+          }
         });
+    },
+    stopPunch() {
+      this.$alert({
+        title: "提前结束考勤",
+        message: "确定要提前结束本次考勤吗？",
+        showCancelButton: true,
+        cancelButtonText: "我点错了",
+        confirmButtonText: "提前结束"
+      }).then((action) => {
+        if (action === "confirm") {
+          punchAPI.stopPunch(this.punchId).then((data) => {
+            this.showPunchBtn = true;
+            if (data) {
+              clearInterval(this.timerId);
+              this.isPunching = false;
+              this.$toast("考勤已结束，您可在考勤统计中查看本次结果");
+            } else {
+              this.$toast("服务器错误！");
+            }
+          });
+        }
+      });
     }
   },
   computed: {
     intervalTime() {
-      const startHours = this.startTime ? this.startTime.split(":")[0] : 0;
-      const startMin = this.startTime ? this.startTime.split(":")[1] : 0;
-      const endHours = this.endTime ? this.endTime.split(":")[0] : 0;
-      const endMin = this.endTime ? this.endTime.split(":")[1] : 0;
-      return endHours * 60 + endMin - (startHours * 60 + startMin);
+      return new Date(
+        jsUtils.getTimestamp(this.endTime) -
+          jsUtils.getTimestamp(this.startTime)
+      ).getMinutes();
     }
   }
 };
