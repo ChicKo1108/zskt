@@ -7,16 +7,16 @@
     <!-- 快捷考勤 -->
     <div class="card punch_card">
       <h2 class="card_title">快捷考勤</h2>
+      <!-- 有班级状态 -->
       <div v-if="classVos && classVos.length" class="card_main">
         <ul class="card_list">
           <li class="list_item">
             <p class="item_title">考勤班级</p>
             <div class="item_class_content">
-              <div class="punch_name">2017级软件工程1班</div>
+              <div class="punch_name">软件一班</div>
               <zs-button
                 type="light"
                 :style="{ fontSize: '12px' }"
-                :onClick="test"
                 :width="69"
                 :height="24"
               >
@@ -57,6 +57,7 @@
           开始考勤
         </zs-button>
       </div>
+      <!-- 无班级提示 -->
       <div v-else class="default_hint">
         <img src="@/images/clock-gray.png" alt="" />
         您目前暂无班级，先去创建班级吧~
@@ -67,42 +68,12 @@
       <h2 class="card_title">我的班级</h2>
       <div v-if="classVos && classVos.length" class="card_main">
         <ul class="card_list">
-          <li class="list_item class_item">
-            <div class="class_avatar">
-              <img src="@/images/default_avatar.png" alt="" />
-            </div>
+          <li v-for="(cls, idx) in classVos" :key="cls.id" :hidden="idx >= 3 && !showAllClasses" class="list_item class_item">
+            <div class="class_avatar">{{cls.className}}</div>
             <div class="class_info">
               <div class="info_detail">
-                <div class="name">2017级软件工程1班</div>
-                <div class="msg">共23人 班长：王小明</div>
-              </div>
-              <div class="arrow">
-                <img src="@/images/arrow_right_black.png" alt="" />
-              </div>
-            </div>
-          </li>
-          <li class="list_item class_item">
-            <div class="class_avatar">
-              <img src="@/images/default_avatar.png" alt="" />
-            </div>
-            <div class="class_info">
-              <div class="info_detail">
-                <div class="name">2017级软件工程1班</div>
-                <div class="msg">共23人 班长：王小明</div>
-              </div>
-              <div class="arrow">
-                <img src="@/images/arrow_right_black.png" alt="" />
-              </div>
-            </div>
-          </li>
-          <li class="list_item class_item">
-            <div class="class_avatar">
-              <img src="@/images/default_avatar.png" alt="" />
-            </div>
-            <div class="class_info">
-              <div class="info_detail">
-                <div class="name">2017级软件工程1班</div>
-                <div class="msg">共23人 班长：王小明</div>
+                <div class="name">{{cls.className}}</div>
+                <div class="msg">共{{(cls.studentList || []).length}}人</div>
               </div>
               <div class="arrow">
                 <img src="@/images/arrow_right_black.png" alt="" />
@@ -110,7 +81,7 @@
             </div>
           </li>
         </ul>
-        <div class="link">
+        <div v-if="!showAllClasses" class="link">
           管理全部班级<img src="@/images/arrow_right_gray.png" alt="" />
         </div>
       </div>
@@ -123,34 +94,20 @@
     <div class="card">
       <h2 class="card_title">考勤结果</h2>
       <ul v-if="punchResultList && punchResultList.length" class="card_list">
-        <li class="list_item item_result flx flx-sbX">
+        <li v-for="result in punchResultList" :key="result.id" @click="viewPunchDetail(result.id)" class="list_item item_result flx flx-sbX">
           <div class="result flx-col flx-sbX">
-            <div class="result_name one-line-text">
-              2017级软件工程1班考勤结果已统计，点击查收。
+            <div class="result_name one-line-text" :class="result.read ? 'readed' : ''">
+              {{result.className}}考勤结果已统计，点击查收。
             </div>
             <div class="result_info flx flx-sbX">
               <div class="base_info">0人请假 3人未打卡</div>
-              <div class="result_time">2021/01/30 12:18</div>
+              <div class="result_time">{{new Date(result.endTime).Format('yyyy/MM/dd hh:mm')}}</div>
             </div>
           </div>
           <div class="arrow">
             <img src="@/images/arrow_right_black.png" alt="" />
           </div>
-          <div class="unread"></div>
-        </li>
-        <li class="list_item item_result flx flx-sbX">
-          <div class="result flx-col flx-sbX">
-            <div class="result_name one-line-text readed">
-              2017级软件工程1班考勤结果已统计，点击查收。
-            </div>
-            <div class="result_info flx flx-sbX">
-              <div class="base_info">0人请假 3人未打卡</div>
-              <div class="result_time">2021/01/30 12:18</div>
-            </div>
-          </div>
-          <div class="arrow">
-            <img src="@/images/arrow_right_black.png" alt="" />
-          </div>
+          <div v-if="!result.read" class="unread" />
         </li>
       </ul>
       <div v-else class="default_hint">
@@ -171,19 +128,36 @@
 import { getStringLocalTime } from "@/lib/jsUtils";
 import ZsButton from "@/components/zs_button/ZsButton";
 import HomeFooter from "@/components/home_footer/HomeFooter";
+import HomeAPI from '../../api/homeAPI';
 
 export default {
   data() {
     return {
       localTime: getStringLocalTime(),
-      classVos: [],
-      punchResultList: []
+      classVos: [1],
+      punchResultList: [1],
+      showAllClasses: false
     };
   },
   components: { ZsButton, HomeFooter },
-  methods: {},
+  methods: {
+    formatTime(time, fmt) {
+      return new Date(time).Format(fmt);
+    },
+    viewPunchDetail(id) {
+      this.$router.push('/punchDetail?id=' + id);
+    }
+  },
   computed: {},
-  mounted() {}
+  mounted() {
+    HomeAPI.getPageData().then(({data}) => {
+      this.showAllClasses = data.classList.length <= 3;
+      this.classVos = data.classList;
+      this.punchResultList = data.endPunchList;
+    }).catch(() => {
+      this.$toast('服务器错误，请重试');
+    });
+  }
 };
 </script>
 

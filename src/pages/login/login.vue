@@ -157,9 +157,8 @@ export default {
     },
     doLogin() {
       UserAPI.login(this.phone, this.password).then(({ data }) => {
-        console.log(data);
         if (data.msg === "OK") {
-          console.log("login success");
+          this.$toast('登录成功');
           this.$router.replace("/");
         }
       });
@@ -168,7 +167,6 @@ export default {
       if (this.mode === "register") {
         this.doRegister();
       } else {
-        console.log(1);
         this.doLogin();
       }
     }

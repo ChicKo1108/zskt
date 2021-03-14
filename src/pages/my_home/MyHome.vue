@@ -11,16 +11,16 @@
                 <img src="@/images/arrow_right_black.png" alt="">
             </div>
         </li>
-        <li @click="goUpdate('realName')" class="item">
+        <li @click="goUpdate('realName', realName)" class="item">
             <span class="title">姓名</span>
-            <div class="content">王小明</div>
+            <div class="content">{{realName}}</div>
             <div class="arrow">
                 <img src="@/images/arrow_right_black.png" alt="">
             </div>
         </li>
-        <li @click="goUpdate('userNo')" class="item">
+        <li v-if="role==='STUDENT'" @click="goUpdate('sno', sno)" class="item">
             <span class="title">学号</span>
-            <div class="content">P171713280</div>
+            <div class="content">{{sno}}</div>
             <div class="arrow">
                 <img src="@/images/arrow_right_black.png" alt="">
             </div>
@@ -33,7 +33,7 @@
                 <img src="@/images/arrow_right_black.png" alt="">
             </div>
         </li>
-        <li @click="goUpdate('phone')" class="item">
+        <li @click="goUpdate('phone', phone)" class="item">
             <span class="content" style="font-size:14px;">修改手机号</span>
             <div class="arrow">
                 <img src="@/images/arrow_right_black.png" alt="">
@@ -51,12 +51,32 @@
 <script>
 import HomeFooterVue from "../../components/home_footer/HomeFooter.vue";
 import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
+import UserAPI from "../../api/userAPI.js";
 
 export default {
   components: { zsNavBar: ZsNavBarVue, homeFooter: HomeFooterVue },
+  data() {
+    return {
+      realName: '',
+      avatar: '',
+      phone: '',
+      sno: '',
+      role: ''
+    };
+  },
+  mounted() {
+    UserAPI.getMyUserInfo().then(res => {
+      const {realName, avatar, phone, sno, role} = res.data;
+      this.realName = realName;
+      this.avatar = avatar;
+      this.phone = phone;
+      this.sno = sno;
+      this.role = role;
+    });
+  },
   methods: {
-    goUpdate(type) {
-      this.$router.push("/updateUserInfo?type=" + type);
+    goUpdate(type, value) {
+      this.$router.push("/updateUserInfo?type=" + type + "&value=" + value);
     }
   }
 };

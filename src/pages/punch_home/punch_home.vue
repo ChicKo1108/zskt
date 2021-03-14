@@ -131,6 +131,7 @@ export default {
   },
   mounted() {
     this.loadMap(this);
+    debugger;
     this.setDefaultTime();
     Promise.all([classAPI.getMyClassList(), punchAPI.getPunchingList()]).then(
       (res) => {
@@ -211,10 +212,12 @@ export default {
 
           function onError(data) {
             // 定位出错
+            this.$toast('地图组件初始化错误' + data);
             console.error(data);
           }
         })
         .catch((err) => {
+          this.$toast('地图组件初始化错误' + err);
           console.error(err);
         });
     },
@@ -301,6 +304,8 @@ export default {
             this.punchId = data.data.id;
             this.beginInterval();
             this.classList.find(v => v.selected).isPunching = true;
+          } else if (data.msg === "END_TIME_SHOULD_AFTER_NOW") {
+            this.$toast('结束时间不能小于当前时间！');
           }
         });
     },

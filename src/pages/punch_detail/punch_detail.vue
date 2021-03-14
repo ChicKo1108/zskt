@@ -7,10 +7,14 @@
           <img src="@/images/default_avatar.png" alt="" />
         </div>
         <div class="infos">
-          <div class="name">2017级软件工程1班</div>
-          <div class="other">共36人 2021/01/31 11:30 - 11:40</div>
+          <div class="name">{{ classVo.className }}</div>
+          <div class="other">
+            共{{ (classVo.studentList || []).length }}人
+            {{ new Date(punchVo.startTime).Format("yyyy/MM/dd hh:mm") }} -
+            {{ new Date(punchVo.endTime).Format("hh:mm") }}
+          </div>
         </div>
-        <div class="ellips">
+        <div v-if="myUserId===classVo.ownerId" @click="showMenu" class="ellips">
           <img src="@/images/ellips_gray.png" alt="" />
         </div>
       </div>
@@ -102,13 +106,63 @@
         </li>
       </ul>
     </div>
+    <mt-actionsheet
+        :actions= "actionMenu"
+        v-model="sheetVisible">
+    </mt-actionsheet>
   </div>
 </template>
 
 <script>
 import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
+import PunchAPI from "../../api/punchAPI";
+import UserAPI from "../../api/userAPI";
+import jsUtils from "../../lib/jsUtils";
+
 export default {
-  components: { zsNavBar: ZsNavBarVue }
+  components: { zsNavBar: ZsNavBarVue },
+  data() {
+    return {
+      punchVo: {},
+      classVo: {},
+      sheetVisible: false,
+      actionMenu: [
+        {
+          name: '删除次打卡',
+          method: this.deletePunch
+        }
+      ],
+      myUserId: ''
+    };
+  },
+  mounted() {
+    const { id } = this.$route.query;
+    Promise.all([PunchAPI.readPunch(id), PunchAPI.getPunchById(id), UserAPI.getMyUserInfo()]).then(
+      (res) => {
+        this.punchVo = res[1].data.punchVo;
+        this.classVo = res[1].data.classVo;
+        this.myUserId = res[2].data.id;
+      }
+    );
+  },
+  methods: {
+    showMenu: function(){
+      this.sheetVisible = true;
+    },
+    deletePunch() {
+      debugger;
+      jsUtils.showAlert('删除考勤记录', '确定要删除此次考勤记录吗？本记录删除后无法恢复！', null, null , () => {
+        PunchAPI.deletePunch(this.punchVo.id).then(({data}) => {
+          if(data) {
+            this.$toast('记录已删除');
+            this.$router.back();
+          } else {
+            this.$toast('删除失败，请稍后再试');
+          }
+        });
+      });
+    }
+  }
 };
 </script>
 

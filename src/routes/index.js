@@ -41,7 +41,6 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.name !== "login") {
     axios.post('/api/user/checkLogin').then((res) => {
-      console.log(res);
       if (res.data === 'OK') {
         next();
       } else {

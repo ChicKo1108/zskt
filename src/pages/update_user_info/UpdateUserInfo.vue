@@ -6,25 +6,22 @@
       <template v-if="type === 'password'">
         <li class="item">
           <div class="title">原密码</div>
-          <input type="password" />
-          <div class="tip">原密码错误</div>
+          <input @blur="doCheckPassword" v-model="oriPassword" type="password" />
+          <div :hidden="!isOriPsdWrong" class="tip">原密码错误</div>
         </li>
         <li class="item">
           <div class="title">新密码</div>
-          <input type="password" />
-          <div class="tip"></div>
+          <input v-model="password" type="password" />
         </li>
         <li class="item">
           <div class="title">确认密码</div>
-          <input type="password" />
-          <div class="tip"></div>
+          <input v-model="checkPassword" type="password" />
         </li>
       </template>
       <!-- other -->
       <li v-else class="item">
         <div class="title">{{ title }}</div>
-        <input type="text" />
-        <div class="tip"></div>
+        <input v-model="info" type="text" />
       </li>
     </ul>
     <zs-button
@@ -38,6 +35,7 @@
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
       "
       :shadow="true"
+      :onClick="doUpdate"
       >提交</zs-button
     >
   </div>
@@ -46,32 +44,84 @@
 <script>
 import ZsButtonVue from "../../components/zs_button/ZsButton.vue";
 import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
+import UserAPI from "../../api/userAPI";
 export default {
   components: { zsNavBar: ZsNavBarVue, zsButton: ZsButtonVue },
   data() {
     return {
       title: "",
-      type: ""
+      type: "",
+      info: "",
+      oriPassword: "",
+      password: "",
+      checkPassword: "",
+      isOriPsdWrong: false
     };
   },
   mounted() {
-    const { type } = this.$route.query;
+    const { type, value } = this.$route.query;
     this.type = type;
-    switch (type) {
-    case "realName":
-      this.title = "姓名";
-      break;
-    case "password":
-      this.title = "密码";
-      break;
-    case "userNo":
-      this.title = "学号";
-      break;
-    case "phone":
-      this.title = "手机号";
-      break;
-    default:
-      break;
+    this.title = this.getKeyByType(type);
+    this.info = value;
+  },
+  methods: {
+    getKeyByType(type) {
+      switch (type) {
+      case "realName":
+        return "姓名";
+      case "password":
+        return "密码";
+      case "sno":
+        return "学号";
+      case "phone":
+        return "手机号";
+      default:
+        break;
+      }
+    },
+    doCheckPassword() {
+      if(!this.oriPassword) {
+        return;
+      }
+      UserAPI.checkPassword(this.oriPassword).then(res => {
+        if(!res.data) {
+          this.isOriPsdWrong = true;
+        } else {
+          this.isOriPsdWrong = false;
+        }
+      });
+    },
+    doUpdate() {
+      if(this.type !== "password") {
+        if(!this.info) {
+          this.$toast(`请输入${this.getKeyByType(this.type)}后再提交`);
+          return;
+        }
+        UserAPI.updateUserInfo({[this.type]: this.info}).then(res => {
+          if(res.data) {
+            this.$toast('修改成功');
+            this.$router.back();
+
+          }
+        });
+      } else {
+        if(this.password !== this.checkPassword) {
+          this.$toast('两次密码输入不一致！');
+          return;
+        } else if(this.isOriPsdWrong) {
+          this.$toast('原密码输入不正确');
+          return;
+        } else {
+          UserAPI.updatePassword(this.oriPassword, this.password, this.checkPassword).then(res => {
+            if(res.data === 'OK') {
+              this.$toast('修改成功');
+              this.$router.back();
+            } else {
+              this.$toast('出错啦，请重试');
+            }
+          });
+        }
+      }
     }
   }
 };

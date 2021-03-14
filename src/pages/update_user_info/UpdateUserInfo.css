@@ -10,7 +10,7 @@
 
 .item {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     padding: 10px 17px;
     height: 55px;

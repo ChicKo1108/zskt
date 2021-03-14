@@ -161,10 +161,17 @@
 }
 
 .class_avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
     overflow: hidden;
+    background-color: #539CFC;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    line-height: 16px;
+    padding: 3px;
+    box-sizing: border-box;
 }
 
 .class_avatar > img {
