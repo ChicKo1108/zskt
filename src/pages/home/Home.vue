@@ -110,13 +110,10 @@
           class="list_item item_result flx flx-sbX"
         >
           <div class="result flx-col flx-sbX">
-            <div
-              class="result_name one-line-text"
-              :class="notice.read ? 'readed' : ''"
-            >
-              {{ notice.userVo.realName }}同学申请加入{{
-                notice.classVo.className
-              }}，请及时审批。
+            <div class="result_name one-line-text">
+              {{userInfo.role === 'TEACHER' 
+                ? `${ notice.userVo.realName }同学申请加入${ notice.classVo.className }，请及时审批。` 
+                : `申请加入 ${notice.classVo.className}，${notice.isPass === 'LOADING' ? '等待老师审批中' : '审核结果已出'}。`}}
             </div>
             <div class="result_info flx flx-sbX">
               <div class="result_time">
@@ -124,17 +121,24 @@
               </div>
             </div>
           </div>
-          <div v-if="notice.isPass === 'LOADING'" class="arrow">
+          <div v-if="notice.isPass === 'LOADING' && userInfo.role === 'TEAHCER'" class="arrow">
             <img src="@/images/arrow_right_black.png" alt="" />
           </div>
-          <div v-if="notice.isPass === 'LOADING'" class="unread" />
+          <div v-if="notice.isPass === 'LOADING' && userInfo.role === 'TEAHCER'" class="unread" />
           <transition name="fade">
             <div
-              v-if="notice.isPass != 'LOADING'"
+              v-if="userInfo.role === 'TEAHCER' && notice.isPass != 'LOADING'"
               class="logo"
               :class="notice.isPass === 'PASS' ? '' : 'reject'"
             >
               {{ notice.isPass === "PASS" ? "同意" : "拒绝" }}
+            </div>
+            <div
+              v-if="userInfo.role === 'STUDENT' && notice.isPass != 'LOADING'"
+              class="logo"
+              :class="notice.isPass === 'PASS' ? '' : 'reject'"
+            >
+              {{ notice.isPass === "PASS" ? "已加入" : "未通过" }}
             </div>
           </transition>
         </li>
