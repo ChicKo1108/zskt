@@ -247,6 +247,22 @@
     right: 0;
 }
 
+.logo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 1px solid #37A100;
+    color: #37A100;
+    padding: 3px;
+    font-size: 12px;
+    transform: rotate(-45deg);
+}
+
+.logo.reject {
+    border: 1px solid #a12000;
+    color: #a12000;
+}
+
 .result {
     width: calc(100vw - 80px);
     margin-bottom: 7px;

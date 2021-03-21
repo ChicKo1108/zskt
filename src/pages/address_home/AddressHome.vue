@@ -9,9 +9,17 @@
       <img src="@/images/plus.png" alt="" />
     </div>
     <div v-if="shouldShowMenu" class="menu">
-      <div @click="goCreateClass" class="btn">
+      <div
+        v-if="userInfo.role === 'TEACHER'"
+        @click="goCreateClass"
+        class="btn"
+      >
         <img src="@/images/add.png" alt="" />
         创建班级
+      </div>
+      <div v-else @click="showSearchClassModel" class="btn">
+        <img src="@/images/add.png" alt="" />
+        加入班级
       </div>
       <div @click="closeMenu" class="btn">
         <img src="@/images/scan.png" alt="" />
@@ -27,9 +35,14 @@
     </div>
     <!-- 班级聚合chunk -->
     <ul class="class_chunk_list">
-      <li v-for="(cls, idx) in classList" :key="cls.id" :hidden="cls.needHide ? idx >= 3 : false" class="list_item">
+      <li
+        v-for="(cls, idx) in classList"
+        :key="cls.id"
+        :hidden="cls.needHide ? idx >= 3 : false"
+        class="list_item"
+      >
         <div class="item_header">
-          <div class="class_avatar">{{cls.className}}</div>
+          <div class="class_avatar">{{ cls.className }}</div>
           <div class="class_info" @click="viewInfoPage('1231123', true)">
             <div class="class_info_detail">
               <div class="name">{{ cls.className }}</div>
@@ -49,8 +62,10 @@
             </div>
             <div class="class_info" @click="viewInfoPage('1231123')">
               <div class="class_info_detail">
-                <div class="name" style="font-size: 14px">{{stu.realName}}</div>
-                <div class="num">{{stu.sno || '未填写学号'}}</div>
+                <div class="name" style="font-size: 14px">
+                  {{ stu.realName }}
+                </div>
+                <div class="num">{{ stu.sno || "未填写学号" }}</div>
               </div>
               <div class="arrow">
                 <img src="@/images/arrow_right_black.png" alt="" />
@@ -65,6 +80,50 @@
       </li>
     </ul>
     <home-footer :index="3"></home-footer>
+    <transition name="fade">
+      <div
+        v-if="shouldShowModal"
+        @click="closeModal"
+        class="search_class_modal"
+      >
+        <div @click.stop="" class="search_class_wrap">
+          <div class="title">搜索班级</div>
+          <div class="tip_info">请输入班级名或班级Id</div>
+          <div class="input_box">
+            <input v-model="searchString" type="text" />
+          </div>
+          <div v-if="searchResultList.length" class="result_box">
+            <div class="result_title">搜索到以下班级</div>
+            <div class="result_list">
+              <div
+                v-for="cls in searchResultList"
+                :key="cls.id"
+                class="result_class_item"
+                @click="viewInfoPage(cls.id, true)"
+              >
+                <div class="class_avatar">{{ cls.className }}</div>
+                <div class="class_item_main">
+                  <div class="class_name">{{ cls.className }}</div>
+                  <div class="class_info">
+                    {{ cls.school }}·{{ cls.college }}
+                  </div>
+                </div>
+                <div class="arrow">
+                  <img src="../../images/arrow_right_gray.png" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-if="showErrorTip" class="error_tip">
+            未找到到相关班级，请重试
+          </div>
+          <div class="btns">
+            <div @click="closeModal" class="btn">取消</div>
+            <div @click="doSearchClass" class="btn">搜索</div>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -72,19 +131,28 @@
 import HomeFooterVue from "../../components/home_footer/HomeFooter.vue";
 import ZsNavBarVue from "../../components/zs_nav_bar/ZsNavBar.vue";
 import classAPI from "../../api/classAPI";
+import UserAPI from "../../api/userAPI";
 export default {
   components: { ZsNavBar: ZsNavBarVue, HomeFooter: HomeFooterVue },
   data() {
     return {
       shouldShowMenu: false,
-      classList: []
+      classList: [],
+      userInfo: {},
+      shouldShowModal: false,
+      showErrorTip: false,
+      searchString: "",
+      searchResultList: []
     };
   },
   mounted() {
-    classAPI.getMyClassList().then(({ data }) => {
-      data.forEach(cls => cls.needHide = true);
-      this.classList = data;
-    });
+    Promise.all([classAPI.getMyClassList(), UserAPI.getMyUserInfo()]).then(
+      (res) => {
+        res[0].data.forEach((cls) => (cls.needHide = true));
+        this.classList = res[0].data;
+        this.userInfo = res[1].data;
+      }
+    );
   },
   methods: {
     showMenu() {
@@ -108,6 +176,25 @@ export default {
     goCreateClass() {
       this.closeMenu();
       this.$router.push("/createClass");
+    },
+    showSearchClassModel() {
+      this.closeMenu();
+      this.shouldShowModal = true;
+    },
+    closeModal() {
+      this.shouldShowModal = false;
+      this.searchString = "";
+      this.showErrorTip = false;
+      this.searchResultList = [];
+    },
+    doSearchClass() {
+      if (!this.searchString) {
+        return;
+      }
+      classAPI.searchClass(this.searchString).then(({ data }) => {
+        this.searchResultList = data;
+        this.showErrorTip = !data.length;
+      });
     }
   }
 };

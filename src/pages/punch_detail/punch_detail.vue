@@ -132,8 +132,23 @@ export default {
           method: this.deletePunch
         }
       ],
-      myUserId: ''
+      myUserId: '',
+      item: [
+        {score: 70, status: 'success', course: '大学物理', index: 0},
+        {score: 12, status: 'success', course: '英语', index: 1},
+        {score: 30, status: 'success', course: '语文', index: 2}
+      ]
     };
+  },
+  computed: {
+    formatItem() {
+      return this.item.map(v => ({
+        score: v.score,
+        status: v.status,
+        course: `${v.score}分`,
+        index: v.index
+      }));
+    }
   },
   mounted() {
     const { id } = this.$route.query;

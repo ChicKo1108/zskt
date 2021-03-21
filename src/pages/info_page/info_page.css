@@ -164,3 +164,54 @@
     text-align: center;
     margin-top: 12px;
 }
+
+.class_card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.card_title {
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.table {
+    border: 1px solid #f0f0f0;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.row:first-child .cell {
+    font-weight: bold;
+    color: #333;
+}
+
+.row:last-child {
+    border: none;
+}
+
+.cell:first-child {
+    flex: 1;
+    color: #999;
+    border: none;
+    background-color: #eaf5ff;
+}
+
+.cell {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+    height: 40px;
+    border-left: 1px solid #f0f0f0;
+}

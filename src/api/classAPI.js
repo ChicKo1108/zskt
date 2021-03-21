@@ -12,8 +12,25 @@ function getMyClassList () {
   return axios.get("/api/class/findMyClasses");
 }
 
+function searchClass (searchString) {
+  return axios.get("/api/class/findClassByNameAndId", {params: {searchString}});
+}
+
+function apply2AddClass (classId) {
+  return axios.get("/api/class/apply2Add", {params: {classId}});
+}
+
+function handleApply (studentId, classId, isPass) {
+  return axios.get("/api/class/handleApply", { params: { studentId, classId, isPass } });
+}
+
+
+
 module.exports = {
   create,
   findById,
-  getMyClassList
+  getMyClassList,
+  searchClass,
+  apply2AddClass,
+  handleApply
 };
