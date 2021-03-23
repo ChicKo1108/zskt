@@ -131,7 +131,6 @@ export default {
   },
   mounted() {
     this.loadMap(this);
-    debugger;
     this.setDefaultTime();
     Promise.all([classAPI.getMyClassList(), punchAPI.getPunchingList()]).then(
       (res) => {

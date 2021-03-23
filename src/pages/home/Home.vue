@@ -121,13 +121,13 @@
               </div>
             </div>
           </div>
-          <div v-if="notice.isPass === 'LOADING' && userInfo.role === 'TEAHCER'" class="arrow">
+          <div v-if="notice.isPass === 'LOADING' && userInfo.role === 'TEACHER'" class="arrow">
             <img src="@/images/arrow_right_black.png" alt="" />
           </div>
-          <div v-if="notice.isPass === 'LOADING' && userInfo.role === 'TEAHCER'" class="unread" />
+          <div v-if="notice.isPass === 'LOADING' && userInfo.role === 'TEACHER'" class="unread" />
           <transition name="fade">
             <div
-              v-if="userInfo.role === 'TEAHCER' && notice.isPass != 'LOADING'"
+              v-if="userInfo.role === 'TEACHER' && notice.isPass != 'LOADING'"
               class="logo"
               :class="notice.isPass === 'PASS' ? '' : 'reject'"
             >
