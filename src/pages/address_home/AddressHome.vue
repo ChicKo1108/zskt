@@ -43,7 +43,7 @@
       >
         <div class="item_header">
           <div class="class_avatar">{{ cls.className }}</div>
-          <div class="class_info" @click="viewInfoPage('1231123', true)">
+          <div class="class_info" @click="viewInfoPage(cls.id, true)">
             <div class="class_info_detail">
               <div class="name">{{ cls.className }}</div>
               <div class="num">共{{ cls.studentList.length }}人</div>
@@ -60,7 +60,7 @@
                 alt=""
               />
             </div>
-            <div class="class_info" @click="viewInfoPage('1231123')">
+            <div class="class_info" @click="viewInfoPage(stu.id)">
               <div class="class_info_detail">
                 <div class="name" style="font-size: 14px">
                   {{ stu.realName }}

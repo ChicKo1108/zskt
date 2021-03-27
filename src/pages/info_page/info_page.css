@@ -28,13 +28,15 @@
     height: 100%;
 }
 
-.nav_bar_icon:first-child {
-    margin-right: auto;
-}
-
 .nav_bar_icon:last-child {
     margin-left: 20px;
 }
+
+.nav_bar_icon:first-child {
+    margin-right: auto;
+    margin-left: 0;
+}
+
 
 .tip {
     font-size: 12px;

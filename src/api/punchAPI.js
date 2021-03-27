@@ -20,8 +20,16 @@ function getPunchById(id) {
   return axios.get("/api/punch/getPunchById", { params: { id } });
 }
 
-function deletePunch (id) {
+function deletePunch(id) {
   return axios.delete("/api/punch/delete", { params: { id } });
+}
+
+function joinPunch(id) {
+  return axios.get("/api/punch/joinPunch", { params: { id } });
+}
+
+function getPunchList () {
+  return axios.get("/api/punch/getPunchList");
 }
 
 module.exports = {
@@ -30,5 +38,7 @@ module.exports = {
   getPunchingList,
   readPunch,
   getPunchById,
-  deletePunch
+  deletePunch,
+  joinPunch,
+  getPunchList
 };

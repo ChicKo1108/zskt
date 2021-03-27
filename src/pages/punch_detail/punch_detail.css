@@ -43,6 +43,7 @@
     justify-content: space-between;
     align-items: flex-start;
     height: 40px;
+    margin-right: auto;
 }
 
 .infos .name {
@@ -130,13 +131,14 @@
 
 .arrow>img {
     width: 100%;
+    display: block;
 }
 
 .student_info {
     height: 40px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-start;
 }
 

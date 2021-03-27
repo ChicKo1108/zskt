@@ -60,7 +60,7 @@
         </div>
       </div>
       <zs-button
-        v-if="showPunchBtn"
+        v-if="userInfo.role==='TEACHER' && showPunchBtn"
         :height="40"
         style="margin: 14px auto 0 auto;width:70%;"
         :onClick="createPunch"
@@ -68,13 +68,35 @@
         开始考勤
       </zs-button>
       <zs-button
-        v-else
+        v-if="userInfo.role==='STUDENT' && showPunchBtn"
+        :height="40"
+        style="margin: 14px auto 0 auto;width:70%;"
+      >
+        暂无考勤
+      </zs-button>
+      <zs-button
+        v-if="userInfo.role==='TEACHER' && !showPunchBtn"
         :height="40"
         style="margin: 14px auto 0 auto;width:70%;"
         type="danger"
         :onClick="stopPunch"
       >
         考勤中 剩余{{ countDownTime }}
+      </zs-button>
+      <zs-button
+        v-if="userInfo.role==='STUDENT' && !showPunchBtn && !alreadyPunched"
+        :height="40"
+        style="margin: 14px auto 0 auto;width:70%;"
+        :onClick="joinPunch"
+      >
+        立即打卡 剩余{{ countDownTime }}
+      </zs-button>
+      <zs-button
+        v-if="userInfo.role==='STUDENT' && alreadyPunched"
+        :height="40"
+        style="margin: 14px auto 0 auto;width:70%;background:#79B2FF"
+      >
+        打卡成功
       </zs-button>
     </div>
     <!-- Footer -->
@@ -112,6 +134,7 @@ import { Toast } from "mint-ui";
 import jsUtils from "../../lib/jsUtils.js";
 import classAPI from "../../api/classAPI.js";
 import punchAPI from "../../api/punchAPI.js";
+import userAPI from "../../api/userAPI.js";
 export default {
   components: { zsNavBar: ZsNavBarVue, zsButton: ZsButtonVue },
   data() {
@@ -120,22 +143,26 @@ export default {
       startTime: "13:30",
       endTime: "13:30",
       classList: [],
+      userInfo: [],
       lng: "",
       lat: "",
       address: "暂时固定地名",
       timerId: "",
       countDownTime: "",
       punchId: "",
-      showPunchBtn: true
+      showPunchBtn: true,
+      alreadyPunched: false
     };
   },
   mounted() {
     this.loadMap(this);
     this.setDefaultTime();
-    Promise.all([classAPI.getMyClassList(), punchAPI.getPunchingList()]).then(
+    Promise.all([classAPI.getMyClassList(), punchAPI.getPunchingList(), userAPI.getMyUserInfo()]).then(
       (res) => {
+        this.userInfo = res[2].data;
         const classList = res[0].data;
         const punchingList = res[1].data;
+        // 有正在进行的打卡
         if (punchingList.length) {
           punchingList.forEach((punching) => {
             classList.forEach((cls) => {
@@ -275,6 +302,9 @@ export default {
       return false;
     },
     openPicker(pickerName) {
+      if(this.userInfo.role !== 'TEACHER') {
+        return;
+      }
       this.$refs[pickerName].open();
     },
     setDefaultTime() {
@@ -317,7 +347,7 @@ export default {
         confirmButtonText: "提前结束"
       }).then((action) => {
         if (action === "confirm") {
-          punchAPI.stopPunch(this.punchId).then((data) => {
+          punchAPI.stopPunch(this.punchId).then(({data}) => {
             this.showPunchBtn = true;
             if (data) {
               clearInterval(this.timerId);
@@ -327,6 +357,21 @@ export default {
               this.$toast("服务器错误！");
             }
           });
+        }
+      });
+    },
+    joinPunch() {
+      punchAPI.joinPunch(this.punchId).then(({data}) => {
+        if(data === 'USER_HAS_BEEN_PUNCHED') {
+          this.$toast("您已经打过卡了，请等待考勤结束查看考勤结果");
+          this.alreadyPunched = true;
+        } else if (data === 'PUNCHING_ALREADY_ENDING') {
+          this.$toast('本次考勤已结束，请联系老师处理结果');
+        } else if (data === 'NO_AUTHORITY') {
+          this.$toast("您不是本班级的成员");
+        } else {
+          this.$toast("打卡成功");
+          this.alreadyPunched = true;
         }
       });
     }

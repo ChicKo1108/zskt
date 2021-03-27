@@ -28,11 +28,16 @@ function updatePassword (oriPassword, password, checkPassword) {
   });
 }
 
+function findUserById (id) {
+  return axios.get('/api/user/findUserById', { params: { id } });
+}
+
 module.exports = {
   register,
   login,
   updateUserInfo,
   getMyUserInfo,
   checkPassword,
-  updatePassword
+  updatePassword,
+  findUserById
 };

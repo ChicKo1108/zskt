@@ -18,15 +18,6 @@ function getStringLocalTime () {
 }
 
 function getTimestamp(Hm) {
-  console.log(
-    new Date(
-      new Date(
-        new Date(new Date().setHours(Number(Hm.split(":")[0]))).setMinutes(
-          Number(Hm.split(":")[1])
-        )
-      ).setSeconds(0)
-    )
-  );
   return new Date(
     new Date(new Date().setHours(Number(Hm.split(":")[0]))).setMinutes(
       Number(Hm.split(":")[1])
@@ -42,8 +33,8 @@ function showAlert(
   confirmFn = () => {},
   cancelFn = () => {}
 ) {
-  debugger;
-  console.log(VueInstance);
+  // debugger;
+  // console.log(VueInstance);
   VueInstance.$alert({
     title: title || "",
     message: message || "",
