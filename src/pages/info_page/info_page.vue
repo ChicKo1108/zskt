@@ -55,7 +55,7 @@
     
     <div class="options_bar">
       <!-- 学生身份 + 已加入班级 或者 老师身份-->
-      <zs-button v-if="hasJoinedClass || myUserInfo.role === 'TEACHER'" class="options_btn">进入群聊</zs-button>
+      <zs-button :onClick="()=>{ goChat(classVo.id); }" v-if="hasJoinedClass || myUserInfo.role === 'TEACHER'" class="options_btn">进入群聊</zs-button>
       <zs-button
         v-if="hasJoinedClass && myUserInfo.role === 'STUDNET'"
         type="danger"
@@ -142,6 +142,9 @@ export default {
           this.$toast('申请已发送，请等待老师审批');
         }
       });
+    },
+    goChat(id) {
+      this.$router.push('/chatPage?roomId=' + id);
     }
   }
 };

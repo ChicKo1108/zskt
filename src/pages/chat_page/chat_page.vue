@@ -35,8 +35,15 @@
 <script>
 import ZsNavBarVue from '../../components/zs_nav_bar/ZsNavBar.vue';
 export default {
-  components: {
-    zsNavBar: ZsNavBarVue
+  components: { zsNavBar: ZsNavBarVue },
+  data() {
+    return {
+      roomId: ""
+    };
+  },
+  mounted() {
+    this.roomId = this.$route.query.roomId;
+    this.$socket.emit('joinRoom', this.roomId);
   }
 };
 </script>
