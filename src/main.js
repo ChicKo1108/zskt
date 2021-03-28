@@ -7,6 +7,7 @@ import Mint from 'mint-ui';
 import { Toast, MessageBox } from 'mint-ui';
 import 'mint-ui/lib/style.css';
 import axios from 'axios';
+import io from 'socket.io-client';
 
 // 挂载axios
 Vue.prototype.$axios = axios;
@@ -38,6 +39,14 @@ Date.prototype.Format = function(fmt) {
       fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
   return fmt;   
 };
+
+const socket = io('http://localhost:3000', {
+  reconnectionDelayMax: 1000,
+  credentials: true,
+  transports: ["websocket"]
+});
+
+Vue.prototype.$socket = socket;
 
 const VueInstance = new Vue({
   render: h => h(App),

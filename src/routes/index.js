@@ -16,6 +16,7 @@ const PunchDetail = () => import(/* webpackChunkName: "PunchDetail" */'@/pages/p
 const InfoPage = () => import(/* webpackChunkName: "InfoPage" */'@/pages/info_page/info_page');
 const CreateClass = () => import(/* webpackChunkName: "CreateClass" */'@/pages/create_class/create_class');
 const Login = () => import(/* webpackChunkName: "Login" */'@/pages/login/login');
+const ChatPage = () => import(/* webpackChunkName: "chatPage" */'@/pages/chat_page/chat_page');
 
 const routes = [
   { path: '/', name: 'home', component: Home },
@@ -28,7 +29,8 @@ const routes = [
   { path: '/punchDetail', name: 'punchDetail', component: PunchDetail },
   { path: '/infoPage', name: 'infoPage', component: InfoPage },
   { path: '/createClass', name: 'createClass', component: CreateClass },
-  { path: '/login', name: 'login', component: Login }
+  { path: '/login', name: 'login', component: Login },
+  { path: '/chatPage', name: 'chatPage', component: ChatPage }
 ];
 
 const router = new VueRouter({
