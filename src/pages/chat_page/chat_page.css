@@ -81,13 +81,24 @@
   height: 100%;
 }
 
+.block {
+  position: relative;
+  padding-top: 16px;
+}
+
 .info {
   font-size: 12px;
   color: #666;
+  position: absolute;
+  top: 0;
+  left: -5px;
+  width: 50vw;
 }
 
 .me .info {
   text-align: right;
+  left: auto;
+  right: -5px;
 }
 
 .msg {
@@ -98,6 +109,7 @@
   line-height: 19px;
   padding: 6px 9px;
   max-width: calc(100vw - 72px -72px);
+  display: inline-block;
   border-radius: 8px;
   margin-top: 3px;
 }
